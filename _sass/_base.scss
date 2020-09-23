@@ -67,7 +67,7 @@ img {
     vertical-align: middle;
 }
 
-.profile.jpg {
+img[alt=profile] {
     width: 100px; height: 100px;
     object-fit: cover;
     object-position: top;

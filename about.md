@@ -4,7 +4,7 @@ title: About
 permalink: /about/
 ---
 
-![](profile.jpg =100px)
+<img src="profile.jpg" alt="drawing" width="200"/>
 
 #### Name
 
