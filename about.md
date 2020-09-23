@@ -12,10 +12,6 @@ Byeong Geun Jo
 
 bbang_jo
 
-#### Tagline
-
-Always chobo
-
 #### Introduction
 
 weakest in CyKor
