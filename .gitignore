@@ -3,4 +3,4 @@
 _site
 google-analytics.js
 .env
-update.bat
+up.bat

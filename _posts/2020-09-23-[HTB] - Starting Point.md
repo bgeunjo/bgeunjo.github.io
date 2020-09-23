@@ -2,7 +2,7 @@
 layout: post
 title:  "[HTB] - Starting Point"
 date:   2020-09-23
-categories: [blog]
+categories: "blog"
 ---
 
 
