@@ -8,13 +8,15 @@ permalink: /about/
 
 Byeong Geun Jo 
 
-#### Username
+#### Nickname
 
 bbang_jo
 
 #### Introduction
 
-weakest in CyKor, Korea University.
+weakest in CyKor, Korea University. wanna be web lover.
+
+working in SAD.inc 😁
 
 #### Personal information
 
