@@ -16,7 +16,7 @@ bbang_jo
 
 weakest in CyKor, Korea University. wanna be web lover.
 
-want to work in SAD.inc with my team.😁
+want to work in SAD.inc with my 4AI team.😁
 
 #### Personal information
 
