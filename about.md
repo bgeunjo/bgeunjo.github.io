@@ -19,3 +19,4 @@ weakest in CyKor
 #### Personal information
 
 Email: {{ site.email }}
+Instagram : @bban9_j0
