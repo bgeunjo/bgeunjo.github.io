@@ -14,7 +14,7 @@ bbang_jo
 
 #### Introduction
 
-weakest in CyKor, Korea University
+weakest in CyKor, Korea University.
 
 #### Personal information
 
