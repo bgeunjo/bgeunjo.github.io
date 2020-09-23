@@ -6,7 +6,7 @@ permalink: /about/
 
 #### Name
 
-Byeong Geun Jo
+Byeong Geun Jo 
 
 #### Username
 
@@ -14,7 +14,7 @@ bbang_jo
 
 #### Introduction
 
-weakest in CyKor
+weakest in CyKor, Korea University
 
 #### Personal information
 
