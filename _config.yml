@@ -4,9 +4,9 @@ author: Byeong Geun Jo
 email: airmancho@korea.ac.kr
 twitter_username: bgeunjo
 github_username:  bgeunjo
-googleplus_username: nop
+#googleplus_username: nop
 
-head-title: 🚗 bbang_bbang
+head-title: bbang_bbang
 title: bbang_Jo
 
 baseurl: ""    # the subpath of your site, "/blog"
