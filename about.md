@@ -4,6 +4,14 @@ title: About
 permalink: /about/
 ---
 
+#### Name
+
+Byeong Geun Jo
+
+### Username
+
+bbang_jo
+
 #### Tagline
 
 Always chobo
@@ -11,10 +19,6 @@ Always chobo
 #### Introduction
 
 weakest in CyKor
-
-#### License
-
-Copyright&nbsp;&copy;&nbsp;{{ site.author }}
 
 #### Personal information
 
