@@ -4,6 +4,8 @@ title: About
 permalink: /about/
 ---
 
+[]("/profile.jpg")
+
 #### Name
 
 Byeong Geun Jo 
