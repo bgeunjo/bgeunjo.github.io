@@ -25,3 +25,5 @@ want to work for SAD.inc with 4AI team.😁
 Email: {{ site.email }}
 
 Instagram : @bban9_j0
+
+Twitter : @bgeunjo
