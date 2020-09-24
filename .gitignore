@@ -4,3 +4,4 @@ _site
 google-analytics.js
 .env
 up.bat
+CNAME
