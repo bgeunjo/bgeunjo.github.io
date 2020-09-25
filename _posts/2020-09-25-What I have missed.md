@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "What I have missed !"
+title:  "What I have missed and learned !"
 date:   2020-09-25
 categories: ["2020","etc"]
 ---
@@ -47,6 +47,9 @@ dreamhack 문제를 풀고 너무 기분이 좋아서 롸업을 쓰려고 했지
 
 ❗ **전체적으로 배운 점!** : 로컬에서 하나하나 테스트해보면서 하는 게 좋은 것 같다. 몇일 손으로 끄적이는 거 보다 1시간 로컬에서 하는 게 더 효과가 있었다.
 
+---
+
+❗ sqlite3에서 `select` 키워드가 필터링되어 있으면 `union value()`로 바꿔서 쓸 수 있다 ! 첨에 왜인진 모르겠지만 `insert into`를 해주니까 오류가 나서 저렇게 해서 풀었다 :) 딱히 필터링이 많이 돼있는 건 아니라서 그렇게 어렵진 않았다!
 
 
 
