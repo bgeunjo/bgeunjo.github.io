@@ -3,6 +3,7 @@ layout: post
 title:  "What I have missed and learned !"
 date:   2020-09-25
 categories: ["2020","etc"]
+update: 2020-09-27
 
 ---
 
