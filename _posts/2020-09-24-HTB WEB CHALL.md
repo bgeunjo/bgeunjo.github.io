@@ -3,6 +3,7 @@ layout: post
 title:  "[HTB] - Web Chall"
 date:   2020-09-24
 categories: ["2020","web hacking"]
+update:   2020-09-24
 ---
 
 ## HTB WEB CHALL

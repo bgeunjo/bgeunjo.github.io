@@ -3,6 +3,7 @@ layout: post
 title:  "[HTB] - Starting Point"
 date:   2020-09-23
 categories: ["2020","web hacking","pwnable"]
+update:   2020-09-23
 ---
 
 
