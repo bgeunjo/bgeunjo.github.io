@@ -59,7 +59,7 @@ dreamhack 문제를 풀고 너무 기분이 좋아서 롸업을 쓰려고 했지
 
 CCE 2020 하면서 배운건데 문제에서 `$_GET['idx']`를 받고, 그 값을 검증할 때는 `$_REQUEST['idx']`로 했다. 취약점은 `$_GET`이 아니라 `$_REQUEST`를 검증하기 때문에 발생하는데, 대회가 끝나고 친구가 링크를 보내줘서 봤더니 무슨 말인지 알 거 같았다.
 
-> 🚀 https://www.php.net/manual/en/ini.core.php#ini.variables-order
+> 🚀 [https://www.php.net/manual/en/ini.core.php#ini.variables-order](https://www.php.net/manual/en/ini.core.php#ini.variables-order)
 
 `php.ini`파일에서 설정을 해줄 때 Data를 어떻게 다룰지에 대해 설정하는 부분이 있다. 거기서 **variables_order**와 **request_order**가 있는데, 각각은 다음과 같다:
 
