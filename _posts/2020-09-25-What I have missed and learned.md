@@ -4,7 +4,8 @@ title:  "What I have missed and learned !"
 date:   2020-09-25
 categories: ["2020","etc"]
 update: 2020-09-27
-
+comment: true
+tags: [web,etc]
 ---
 
 dreamhack 문제를 풀고 너무 기분이 좋아서 롸업을 쓰려고 했지만, dreamhack은 롸업을 배포하는 게 금지라 그냥 배운 점만 남기려고 한다.

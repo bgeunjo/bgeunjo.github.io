@@ -4,6 +4,8 @@ title:  "[HTB] - Web Chall"
 date:   2020-09-24
 categories: ["2020","web hacking"]
 update:   2020-09-24
+comment: true
+tags: [web]
 ---
 
 ## HTB WEB CHALL

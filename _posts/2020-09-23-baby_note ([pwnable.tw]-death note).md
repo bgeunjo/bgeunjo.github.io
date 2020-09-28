@@ -3,7 +3,9 @@ layout: post
 title:  "baby_note ([pwnable.tw]-death note)"
 date:   2020-09-23
 categories: ["2020","pwnable"]
+comment: true
 update:   2020-09-23
+tags: [pwnable]
 ---
 
 최근에 매주 월요일마다 pwnable 문제를 풀려고 하고 있는데, 친구가 이 문제를 풀어보라고 해서 풀어봤다. 처음에 뭔가 잘 보여서 쉽게 끝나나 했는데 아니었다ㅠㅠ.
