@@ -533,5 +533,5 @@ time-based blind sql injection인 걸 알았을 때 스크립트를 짤까 생�
 +-----------------------------------+
 ```
 
-🏁**flag : HTB{w4f_w4fing_my_w4y_0utt4_h3r3} **
+🏁**flag : HTB{w4f_w4fing_my_w4y_0utt4_h3r3}**
 
