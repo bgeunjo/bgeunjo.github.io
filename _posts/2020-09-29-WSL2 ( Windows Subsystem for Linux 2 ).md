@@ -7,8 +7,6 @@ update: 2020-09-29
 tags: [etc]
 ---
 
-### WSL2 ( Windows Subsystem for Linux 2 ) 
-
 Windows에서도 리눅스를 구동할 수 있도록 도와주는 기능이다. 공부를 하다보면 Linux를 쓸 일이 진짜 많은데 그럴 때마다 가상머신을 켜서 하는 게 너무 귀찮고 속도도 느리다. 그래서 **WSL2**를 설치하고 사용해보려고 한다.
 
 **1. Windows Terminal 설치**
