@@ -102,7 +102,7 @@ PS C:\Users\a> wsl -l -v
 
 ![image](https://user-images.githubusercontent.com/51329156/94555251-46bbe100-0296-11eb-9f88-efac2fed397f.png)
 
-아 그리고 폰트를 `MONACO.TTF`로 바꿔줬다. 아래 화살표를 누르고 설정에 들어간 뒤 `defaults`를 다음과 같이 바꿔준다:
+마지막으로 폰트를 `MONACO.TTF`로 바꿔줬다. 아래 화살표를 누르고 설정에 들어간 뒤 `defaults`를 다음과 같이 바꿔준다:
 
 ``` json
         "defaults":
