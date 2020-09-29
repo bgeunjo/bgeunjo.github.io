@@ -244,3 +244,6 @@ PS C:\Users\a> wsl -l -v
 
 👍👍👍
 
+> 🚀 참고
+>
+>  https://www.44bits.io/ko/post/wsl2-install-and-basic-usage
