@@ -16,9 +16,9 @@ bbang_jo
 
 #### Introduction
 
-weakest in CyKor, Korea University. want to be proud of myself.
+CyKor, Korea University. 
 
-want to work for SAD.inc with 4AI team.😁
+want to be proud of myself.🤣
 
 #### Personal information
 
