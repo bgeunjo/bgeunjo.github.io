@@ -50,7 +50,7 @@ log.info('some_string') # logging message (much better than print())
 
 > 🚀 참고
 >
-> https://cosyp.tistory.com/229
+> [](https://cosyp.tistory.com/229)
 
 내가 저 사람보다 자세히 쓸 자신이 없다 ! 😁
 
