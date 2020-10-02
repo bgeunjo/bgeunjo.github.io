@@ -95,3 +95,4 @@ payload=fmtstr_payload(1,{exit_got:get_shell})
 
 여기서 offset은 `ESP+0x4*(offset)`이라고 생각하면 된다. 즉 `%x`를 했을 때 첫번 째 `%x`에서 buf의 시작지점의 문자열이 출력되었기 때문에 offset이 1이다.
 
+
