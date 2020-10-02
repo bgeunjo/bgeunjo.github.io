@@ -16,7 +16,6 @@ tags: [pwnable,tips]
 > [https://cosyp.tistory.com/229](https://cosyp.tistory.com/229)
 
 문제 풀면서 디버깅을 한 과정을 다시 밟아보자.
-
 ### 🔍Code
 
 ``` c
