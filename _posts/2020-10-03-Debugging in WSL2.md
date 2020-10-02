@@ -53,7 +53,7 @@ switch( select[0] ) {
 
 ### 👀 Debugging
 
-`canary`를 다 leak은 쉬우니까 leak한 후에 `BOF`를 하는 과정을 보자.
+`canary` leak은 쉬우니까 leak한 후에 `BOF`를 하는 과정을 보자.
 
 ![image](https://user-images.githubusercontent.com/51329156/94966609-86a1f300-0538-11eb-94f7-453519661757.png)
 
