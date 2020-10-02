@@ -128,7 +128,7 @@ pause() # stop here!
 overWrite(0x80,payload)
 ```
 
-1. payload를 보내기 전 후에 `pause()`가 걸려있다. 즉, `gdb`가 프로세스에 붙을 시점에는 `payload`가 보내지기 전이다. 
+1. payload를 보내기 전과 후에 `pause()`가 걸려있다. `gdb`가 프로세스에 붙을 시점에는 `payload`가 보내지기 전이다. 
 
 2. 위 사진의 어셈블리 코드를 보면 `read()`가 있다. `bp`를 `0x08048864(main+313)`에다가 걸어준다. 
 
