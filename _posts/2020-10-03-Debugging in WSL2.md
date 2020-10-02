@@ -206,7 +206,7 @@ overWrite(0x80,payload)
 p.interactive()
 ```
 
-![image-20201003054737199](C:\Users\a\AppData\Roaming\Typora\typora-user-images\image-20201003054737199.png)
+![image](https://user-images.githubusercontent.com/51329156/94969272-5f99f000-053d-11eb-88b2-33dff002ae54.png)
 
 👏🏻👏🏻👏🏻
 
