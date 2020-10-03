@@ -14,7 +14,7 @@ tags: [pwnable]
 
 dreamhack 50등을 향한 마지막 문제로 Seccomp를 우회하는 문제였다. 처음 만나본 거라서 천천히 강의 내용 읽고, 코드 읽고 풀어봤다.
 
-## 🤔 SECCOMP?
+# 🤔 SECCOMP?
 
 ### Introduction
 
