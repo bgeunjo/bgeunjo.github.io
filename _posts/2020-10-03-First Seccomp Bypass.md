@@ -78,7 +78,7 @@ prctl(PR_SET_SECCOMP, SECCOMP_MODE_FILTER, args);
 
 
 
-## SECCOMP BYPASS
+# SECCOMP BYPASS
 
 ### 🔎 Code
 
