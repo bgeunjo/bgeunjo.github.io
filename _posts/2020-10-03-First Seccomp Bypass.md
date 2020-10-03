@@ -197,8 +197,6 @@ p.sendlineafter("> ","2")
 p.interactive()
 ```
 
-
-
-![image-20201003202457446](C:\Users\a\AppData\Roaming\Typora\typora-user-images\image-20201003202457446.png)
+![image](https://user-images.githubusercontent.com/51329156/94990373-7f212f00-05b6-11eb-9032-6eb912991047.png)
 
 ❗ 새로 배운 개념이긴 했는데 문제가 워낙 쉽고 저번에 디버깅 연습해놓은 게 있어서 생각보다 금방 풀었다 !
