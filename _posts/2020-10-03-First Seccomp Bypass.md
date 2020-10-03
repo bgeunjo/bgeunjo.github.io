@@ -80,7 +80,7 @@ prctl(PR_SET_SECCOMP, SECCOMP_MODE_FILTER, args);
 
 # SECCOMP BYPASS
 
-### 🔎 Code
+## 🔎 Code
 
 필요한 부분만 추려봤다:
 
@@ -136,7 +136,7 @@ shellcode = mmap(NULL, 0x1000, PROT_READ | PROT_WRITE | PROT_EXEC, MAP_PRIVATE |
 
 `mode`가 전역변수로 선언되어 있고, PIE가 꺼져있기 때문에 주소를 구할 수 있다. 현재 그 주소에 들어있는 값은 `0x1`이다. 이 것을  `0x2`로 바꿔주면  설정해준 필터가 없기 때문에 모든 시스템 콜을 사용할 수 있다! 그러면 `execve` 시스템 콜을 사용해서 쉘을 딸 수 있다 (`0x0`도 가능) 👍
 
-### 🚀 Exploit
+## 🚀 Exploit
 
 값을 바꾸기 전 **SECCOMP_MODE_STRICT**로 설정되어 있는 `mode` 변수 :
 
@@ -152,7 +152,7 @@ shellcode = mmap(NULL, 0x1000, PROT_READ | PROT_WRITE | PROT_EXEC, MAP_PRIVATE |
 
 `case 2`를 이용해 실행하면 된다.
 
-#### ex.py
+### ex.py
 
 ``` python
 #!/usr/bin/python
