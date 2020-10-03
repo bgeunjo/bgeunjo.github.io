@@ -5,7 +5,7 @@ date:   2020-10-03
 categories: ["2020","pwnable"]
 update: 2020-10-03
 comment: true
-tags: [pwnable]ㅇ
+tags: [pwnable]
 ---
 
 
