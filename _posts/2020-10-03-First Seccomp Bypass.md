@@ -20,7 +20,7 @@ dreamhack 50등을 향한 마지막 문제로 Seccomp를 우회하는 문제였�
 
 ![image](https://user-images.githubusercontent.com/51329156/94989512-5f870800-05b0-11eb-9d95-614e91286e02.png)
 
-Linux kernel은 많은 `syscall`들을 유저권한의 프로세스들에게 노출시킨다. 근데 그 `syscall`들을 모두 쓰는 게 아니고, 일부만 쓰고 나머지 `syscall`들은 사용되지 않은 채로 둔다. 프로세스가 다른 위험한 `syscall`을 호출하게 두는 것은 보안상 문제가 있다. 
+Linux kernel은 많은 `syscall`들을 유저권한의 프로세스들에게 노출시킨다. 근데 그 `syscall`들을 모두 쓰는 게 아니고, 일부만 쓰고 나머지 `syscall`들은 사용되지 않은 채로 둔다. 프로세스가 다른 위험한 `syscall`을 호출하게 두는 것은 보안상 문제가 있다. 이를 위해 사용하는 것이 **SECCOMP(SECure COMPuting mode)** 이다.
 
 **Seccomp filtering**은 프로세스의 `syscall` 요청들을 필터링하는 매커니즘이다. 위의 사진을 보면 프로세스가 `syscall`을 한 후, filter들을 통과하지 못하면 `SIGKILL`으로 프로세스를 종료시킨다.
 
