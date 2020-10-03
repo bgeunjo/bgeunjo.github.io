@@ -200,3 +200,15 @@ p.interactive()
 ![image](https://user-images.githubusercontent.com/51329156/94990373-7f212f00-05b6-11eb-9032-6eb912991047.png)
 
 ❗ 새로 배운 개념이긴 했는데 문제가 워낙 쉽고 저번에 디버깅 연습해놓은 게 있어서 생각보다 금방 풀었다 !
+
+
+
+> 🚀 참고
+>
+> [https://velog.io/@woounnan/LINUX-Seccomp](https://velog.io/@woounnan/LINUX-Seccomp) - HOW TO USE SECCOMP
+>
+> [http://terenceli.github.io/%E6%8A%80%E6%9C%AF/2019/02/04/seccomp](http://terenceli.github.io/%E6%8A%80%E6%9C%AF/2019/02/04/seccomp) - Introduction
+>
+> [https://dreamhack.io/learn/2/11#31](https://dreamhack.io/learn/2/11#31) - HOW TO USE SECCOMP
+
+ 
