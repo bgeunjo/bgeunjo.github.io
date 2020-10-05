@@ -54,7 +54,7 @@ Microsoft Store에서 `terminal`을 검색하면 설치할 수 있다. 설치하
 
 **5. WSL2 리눅스 커널 업데이트**
 
-> 🚀 https://docs.microsoft.com/ko-kr/windows/wsl/wsl2-kernel
+> 🚀 [https://docs.microsoft.com/ko-kr/windows/wsl/wsl2-kernel](https://docs.microsoft.com/ko-kr/windows/wsl/wsl2-kernel)
 
 `download the latest WSL2 Linux kernel`을 눌러 설치하면 된다.
 
