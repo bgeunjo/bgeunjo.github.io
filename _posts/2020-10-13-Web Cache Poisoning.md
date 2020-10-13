@@ -1,9 +1,9 @@
 ---
 layout: post
 title:  "Web cache poisoning"
-date:   2020-10-13
+date:   2020-10-14
 categories: ["2020","web"]
-update:   2020-10-13
+update:   2020-10-14
 comment: true
 tags: [web]
 ---
