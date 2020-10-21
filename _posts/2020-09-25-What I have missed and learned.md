@@ -74,6 +74,7 @@ CCE 2020 하면서 배운건데 문제에서 `$_GET['idx']`를 받고, 그 값�
 
 ---
 
+### Dreamhack Web all solve 🎉
 dreamhack 마지막 문제를 풀면서 시간을 진짜 많이 보냈다. 다른 CTF에서도 많이 나왔던 FrontEnd와 API-Server(백엔드)가 분리된 웹 문제였다. API-Server가 분리되어 있어서 발생할 수 있는 여러 취약점들을 확인해봤는데, 잘 안 먹혔다ㅠ. 그래서 대체 취약점이 어디서 발생하는지 몰라서 시간을 오래 보냈다..
 
  FrontEnd에서 GET방식으로 받은 값을 API-Server에서 URL에서 path로 사용하는 걸 생각을 안하고 있었다.  내가 문제풀 때 부족했던 점:
