@@ -43,7 +43,7 @@ Front-end 서버가 HTTP 요청을 Back-end 서버로 포워드해줄 때,  성�
 
 위 사진에서 공격자가 Back-end가 Front-end의 요청 중 일부를 다음 요청의 시작으로 인식하게 만들고, 이는 다음 요청의 시작 부분에 붙어서 해석되기 때문에 어플리케이션이 원치 않는 동작을 할 수 있습니다.
 
- #### 👀 How do HTTP request smugglin vulnerabilities arise?
+#### 👀 How do HTTP request smugglin vulnerabilities arise?
 
  대부분 HTTP request smuggling 취약점은 [HTTP 명세](https://tools.ietf.org/html/rfc2616#section-4.4)에서 요청의 끝을 정하는 방식이 두 개가 있기 때문에 발생합니다: 하나는 `Content-Length` 헤더를 보고, 하나는 `Transfer-Encoding` 헤더를 보고 결정하는 방식입니다.
 
