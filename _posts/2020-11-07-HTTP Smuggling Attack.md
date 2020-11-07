@@ -118,7 +118,7 @@ Back-end 서버는 `Transfer-Encoding`헤더를 보고 body를 chunked encoding�
 
 이 Lab을 풀려면, HTTP request smuggling 공격을 이용해서 다음 요청이 `GPOST` 메소드를 사용하게 해야 합니다.
 
-**PAYLOAD : **
+**PAYLOAD :**
 
 ```python
 import socket
@@ -170,7 +170,7 @@ print (data.decode())
 - Back-end 서버에서는 `Transfer-Encoding`을 보고 처리하기 때문에, `0\r\n\r\n`, 즉 zero size의 청크를 보고 요청의 끝으로 인식합니다.
 - 처리되지 않은 `G`는 Back-end에서 대기하다가 다음 요청이 들어오면 그 요청 앞에 붙어서 처리됩니다. 
 
- **Response : **
+ **Response :**
 
 ```http
 HTTP/1.1 403 Forbidden
@@ -198,7 +198,7 @@ SMUGGLED
 
 ```
 
- **NOTE: ** 위 예제에서도 그렇지만, `chunk size 0 +\r\n+chunk(nothing)\r\n`이기 때문에  0 뒤에는 항상 `\r\n\r\n`이 붙어야 합니다.
+ **NOTE :** 위 예제에서도 그렇지만, `chunk size 0 +\r\n+chunk(nothing)\r\n`이기 때문에  0 뒤에는 항상 `\r\n\r\n`이 붙어야 합니다.
 
 Front-end 서버는 `Transfer-Encoding` 헤더를 처리하기 때문에 body를 chunked encoding으로 인식합니다. 그래서 첫번째 chunk(`8 + \r\n + SMUGGLED + \r\n`)을 처리합니다. 그리고 zero size의 chunk를 보고 요청의 끝임을 확인합니다. 
 
@@ -208,7 +208,7 @@ Back-end 서버에서는 `Content-Length`를 보고 처리하기 때문에 `8 +\
 
 **LAB : HTTP request smuggling, basic TE.CL vulnerability**
 
-**LAB Description : **
+**LAB Description :**
 
 이 문제는 Front-end와 Back-end 서버로 이루어져 있고 Back-end 서버는 chunked encoding을 지원하지 않습니다. Front-end 서버는 `GET`, `POST` 메소드 외에 다른 메소드를 이용한 요청은 거부합니다.
 
