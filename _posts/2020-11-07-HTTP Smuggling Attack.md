@@ -45,7 +45,7 @@ Front-end 서버가 HTTP 요청을 Back-end 서버로 포워드해줄 때,  성�
 
 #### 👀 How do HTTP request smugglin vulnerabilities arise?
 
- 대부분 HTTP request smuggling 취약점은 [HTTP 명세](https://tools.ietf.org/html/rfc2616#section-4.4)에서 확인해보면, 요청의 끝을 정하는 방식이 두 가지가 있기 때문에 발생합니다: 하나는 `Content-Length` 헤더를 보고, 하나는 `Transfer-Encoding` 헤더를 보고 결정하는 방식입니다.
+ 대부분 HTTP request smuggling 취약점은 [HTTP 명세](https://tools.ietf.org/html/rfc2616#section-4.4)를 확인해보면, 요청의 끝을 정하는 방식이 두 가지가 있기 때문에 발생합니다: 하나는 `Content-Length` 헤더를 보고, 하나는 `Transfer-Encoding` 헤더를 보고 결정하는 방식입니다.
 
 `Content-Length` 헤더는 말 그대로 body의 byte 길이를 정의합니다 : 
 
