@@ -317,7 +317,7 @@ chunked
 
 이 Lab을 풀려면, HTTP request smuggling 공격을 이용해서 다음 요청이 `GPOST` 메소드를 사용하게 해야 합니다.
 
-**PAYLOAD: **
+**PAYLOAD :**
 
 ``` python
 import socket
