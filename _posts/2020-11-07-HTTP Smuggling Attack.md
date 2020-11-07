@@ -21,9 +21,7 @@ CSRF 는 다른 문제에서도 많이 공부해볼 수 있어서 간단히 링�
 
 이 글은 portswigger의 글을 번역한 내용입니다.
 
-> 🚀 https://portswigger.net/web-security/request-smuggling
->
-> 🚀 https://portswigger.net/research/http-desync-attacks-request-smuggling-reborn
+> 🚀 [https://portswigger.net/web-security/request-smuggling](https://portswigger.net/web-security/request-smuggling)
 
 ## HTTP request smuggling
 
