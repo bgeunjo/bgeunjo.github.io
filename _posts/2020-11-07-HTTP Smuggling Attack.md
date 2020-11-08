@@ -19,10 +19,6 @@ CSRF 는 다른 문제에서도 많이 공부할 수 있어서 간단히 링크�
 
 > 🚀 [https://bugs.python.org/issue35748](https://bugs.python.org/issue35748)
 
-이 글은 portswigger의 글을 번역한 내용입니다.
-
-> 🚀 [https://portswigger.net/web-security/request-smuggling](https://portswigger.net/web-security/request-smuggling)
-
 ## HTTP request smuggling
 
 ### 🤔 What is HTTP request smuggling? 
@@ -383,7 +379,7 @@ Content-Length: 27
 
 
 
-**HTTP request smuggling** 공격에 대해 알아보고 기본적인 공격방벙을 공부했는데, 좀 더 많은 문제를 풀어보고 싶으시면 링크 남겨드릴테니 풀어보시면 될 것 같습니다. **HTTP request smuggling** 공격에 대한 문제가 많지 않았던 거 같은데 여기서 공부하면 좋을 것 같습니다. 아래 이어서 나오는 내용들도 이 링크를 번역한 내용입니다. :
+**HTTP request smuggling** 공격에 대해 알아보고 기본적인 공격방벙을 공부했는데, 좀 더 많은 문제를 풀어보고 싶으시면 링크 남겨드릴테니 풀어보시면 될 것 같습니다. **HTTP request smuggling** 공격에 대한 문제가 많지 않았던 거 같은데 여기서 공부하면 좋을 것 같습니다. :
 
 > 🚀 [https://portswigger.net/web-security/request-smuggling/exploiting](https://portswigger.net/web-security/request-smuggling/exploiting)
 
@@ -513,7 +509,7 @@ print (data.decode())
 - session 토큰을 기반으로 사용자를 확인하고, 사용자를 식별할 수 있는 헤더를 추가합니다.
 - 또는 다른 공격에 필요한 민감한 정보를 포함할 수도 있습니다.
 
-만약 smuggle 된 요청이 Front-end 서버가 추가하는 헤더를 포함하지 않으면, Back-end 서버는 요청을 정상적인 방식으로 처리하지 않을 것입니다. 
+만약 smuggle 된 요청이 Front-end 서버가 추가하는 헤더를 포함하지 않으면, Back-end 서버는 요청을 제대로 처리하지 않습니다. 
 
 Front-end 서버가 요청을 어떻게 수정하는지 확인할 수 있는 방법이 있는데, 다음과 같은 단계를 따라야 합니다.
 
@@ -640,3 +636,13 @@ print (data.decode())
 `search` 파라미터의 값이 응답에 그대로 표시되기 때문에, `search` 로 Front-end가 추가한 헤더를 알아내고, 이 헤더의 값을 `127.0.0.1`로 바꾸면 됩니다.
 
 ### UPDATING.. 
+
+### Reference
+
+>🚀 [https://kimtruth.github.io/2020/05/24/defcon-28-uploooadit/](https://kimtruth.github.io/2020/05/24/defcon-28-uploooadit/)
+>
+>🚀 [https://portswigger.net/web-security/request-smuggling](https://portswigger.net/web-security/request-smuggling)
+>
+>🚀 [https://portswigger.net/web-security/request-smuggling/exploiting](https://portswigger.net/web-security/request-smuggling/exploiting)
+
+진실님의 블로그에서 많이 배웠습니다..
