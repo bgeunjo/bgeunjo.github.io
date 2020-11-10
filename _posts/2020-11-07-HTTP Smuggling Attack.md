@@ -915,7 +915,7 @@ Location: https://attacker-website.com/home/
 
 Front-end, Back-end 서버로 이루어져있고 Front-end 서버는 chunked encoding을 지원하지 않습니다. Front-end 서버는 특정 응답들을 캐싱하도록 설정되어 있습니다.
 
-이 랩을 풀려면, request smuggling 공격을 사용해서 캐쉬를 오염시켜야 합니다. 그래서 Javascript 파일로의 요청이 exploit server로 리다이렉션이 이루어지게 해야 합니다. 오염된 캐쉬는 `alert(document.cookie)`를 수행해야 합니다.
+이 랩을 풀려면, request smuggling 공격을 사용해서 캐쉬를 오염시켜야 합니다. 그래서 Javascript 파일로의 요청이 exploit server로 리다이렉트되어야 하고 오염된 캐쉬는 `alert(document.cookie)`를 실행시켜야 합니다.
 
 ### UPDATING.. 
 

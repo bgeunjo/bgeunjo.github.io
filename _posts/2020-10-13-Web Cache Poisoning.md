@@ -2,7 +2,7 @@
 layout: post
 title:  "Web cache poisoning"
 date:   2020-10-14
-categories: ["2020","web"]
+categories: ["2020","web hacking"]
 update:   2020-10-14
 comment: true
 tags: [web]
