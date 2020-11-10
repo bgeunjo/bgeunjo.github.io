@@ -1,5 +1,5 @@
 ---
-layout: post
+ㄴlayout: post
 title:  "HTTP Request Smuggling Attack "
 date:   2020-11-07
 categories: ["2020","web hacking"]
@@ -904,6 +904,18 @@ Location: https://attacker-website.com/home/
 ```
 
 다른 사용자가 같은 URL로 요청을 보내면, 모두 공격자의 웹사이트로 redirect됩니다.
+
+**web cache poisning**에 대해 업로드했었는데 방법론에 대해 간단히 설명해주는 그림이 있어 가져왔습니다.
+
+![](https://portswigger.net/cms/images/ec/b8/0d97faa475af-article-methodology-full-landscape.svg)
+
+**Lab: Exploiting HTTP request smuggling to perform web cache poisoning**
+
+**LAB Description :**
+
+Front-end, Back-end 서버로 이루어져있고 Front-end 서버는 chunked encoding을 지원하지 않습니다. Front-end 서버는 특정 응답들을 캐싱하도록 설정되어 있습니다.
+
+이 랩을 풀려면, request smuggling 공격을 사용해서 캐쉬를 오염시켜야 합니다. 그래서 Javascript 파일로의 요청이 exploit server로 리다이렉션이 이루어지게 해야 합니다. 오염된 캐쉬는 `alert(document.cookie)`를 수행해야 합니다.
 
 ### UPDATING.. 
 
