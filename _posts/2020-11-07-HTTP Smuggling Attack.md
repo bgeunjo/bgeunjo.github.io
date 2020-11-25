@@ -3,7 +3,7 @@
 title:  "HTTP Request Smuggling Attack "
 date:   2020-11-07
 categories: ["2020","web hacking"]
-update: 2020-11-08
+update: 2020-11-12
 tags: [web]
 ---
 
