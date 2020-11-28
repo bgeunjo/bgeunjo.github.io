@@ -50,33 +50,30 @@ tags: [AI,Recommendation]
 #### 사용자 기반 (User-Based)
 
 여기서 유사도는 두 사용자가 한 아이템을 얼마나 비슷하게  선호했는지를 기준으로 합니다. 사용자 기반에서는 한 사용자가 평가한 영화들의 평점들을 가지고 벡터로 표현합니다. 위의 표를 보면 준용의 평가 벡터는 `(5,4,-,2)`이고 승윤의 평가 벡터는 `(-,4,1,5)`입니다. 이 때 두 사용자간 유사도는 두 벡터 간 유사도로 정의합니다. 식으로 나타내면 다음과 같습니다 :
-$$
-similarity = cos(\theta) =  \frac {A \cdot B} {\Vert A \Vert \Vert B \Vert}
-$$
+
+![image](https://user-images.githubusercontent.com/51329156/100496370-f62e0a80-3196-11eb-87d2-526179d9084d.png)
+
 유사도를 구하는 방법에는 여러가지가 있지만 이번에는 간단한 코사딘 유사도를 사용하겠습니다.
 
 코사인 유사도를 이용해 사용자 간 유사도를 구할 때는 두 사용자가 공통으로 평가한 항목에 대해서만 계산합니다. 즉 준용과 승윤의 유사도를 계산할 때 `A=(4,2)`,`B=(4,5)`이고 코사인 유사도를 구해보면 다음과 같습니다 :
-$
-similarity = \frac {(4,2) \cdot (4,5)} {\sqrt {4^2+2^2} \sqrt {4^2+5^2}} \approx  0.91
-$
+
+![image](https://user-images.githubusercontent.com/51329156/100496381-0cd46180-3197-11eb-89d2-c6153d8d7a0e.png)
+
 이런 식으로 모든 사용자 간의 유사도를 구하면 사용자 수 * 사용자 수(5*5) 크기의 유사도 행렬을 만들 수 있습니다. 만약 동욱이 인터스텔라에 남긴 평점을 구하고 싶으면 유사한 몇명의 점수를 이용해 구하거나 전체를 대상으로 weight sum 값을  사용할 수 있습니다. 전자를 식으로 나타내면 다음과 같습니다 : 
-$$
-\hat y_{ui} = \Sigma_{u^\prime \in  S_u(u)} sim(u,u\prime) \cdot y_{u^\prime i}
-$$
+
+![image](https://user-images.githubusercontent.com/51329156/100496388-165dc980-3197-11eb-9533-5ebc52746bad.png)
+
 위의 수식은 유사한 사용자들을 구해 (그 사용자와의 유사도 * 그 사용자의 예측값)들의 합을 예측값으로 사용하는 것을 의미합니다. 후자의 경우인 전체를 대상으로 weight sum 값을 사용하는 경우의 수식은 다음과 같습니다 :
-$$
-\hat y_{ui} = \frac {\Sigma_{u^\prime \in U} sim(u,u^\prime)*y_{u^\prime i} } {\Sigma_{u^\prime \in U} sim(u,u^\prime) }
-$$
+
+![image](https://user-images.githubusercontent.com/51329156/100496394-22e22200-3197-11eb-859d-3234d0c01b1d.png)
 
 #### 아이템 기반 (item-Based)
 
 사용자 기반과 유사하지만 아이템 기반은  사용자가 다른 아이템들에 대해 얼마나 비슷한 선호도를 가지고 있냐를 기준으로 합니다.  위의 행렬을 참고해서 테넷과 인터스텔라의 유사도를 구해봅시다. 테넷과 인터스텔라 모두를 평가한 사용자는 준용, 무열이고 각각을 벡터로 나타내면 `(5,4)`,`(5,3)` 입니다 :
-$$
-similarity = \frac {5 \times5 + 4\times3}{\sqrt {5^2 + 4^2} \sqrt {5^2+3^2}}\approx 0.99
-$$
+
+![image](https://user-images.githubusercontent.com/51329156/100496399-32616b00-3197-11eb-8d2b-bf6ee652b039.png)
+
 테넷과 인터스텔라의 유사도는 0.99로 상당힌 높은 유사도 입니다. 즉 테넷을 좋아하는 사람은 인터스텔라를 좋아할 확률이 높고 그 반대도 마찬가지임을 의미합니다.
-
-
 
 ### Updating ..  
 
