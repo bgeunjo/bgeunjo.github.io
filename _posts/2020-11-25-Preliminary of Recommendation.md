@@ -109,7 +109,21 @@ MF의 objective function은 다음과 같이 정의할 수 있습니다. 목표�
 
 ![image](https://user-images.githubusercontent.com/51329156/100550370-edcfef80-32bc-11eb-90c5-6757f62afe85.png)
 
-위 objective function을 최소화하는 p와 q를 찾는 방법이 2가지가 있습니다.
+위 objective function을 최소화하는 p와 q를 찾는 것이 목적이고, 이를 위한 방법은 생략하도록 하겠습니다.
+
+### Deep Learning Meets CF
+
+#### Methods of Representation Learning(표현 학습)
+
+ DNN이 높은 성능을 내는 배경에는 복잡한 데이터 공간을 선형 분류가 가능할 정도로 단순화해 표현하기 때문이라는 이론이 있습니다. **표현학습**은 특정 task를 수행하기에 좋은 표현을 만드는 것을 의미합니다. 아래 그림에서는 Matrix Factorization과 표현학습을 사용한 것을 설명하고 있습니다 :
+
+#### ![image](https://user-images.githubusercontent.com/51329156/101655831-684efb00-3a85-11eb-9dd3-4963d047d482.png)
+
+유저 Row에 대해 DNN을 사용해 Representation을 얻고, 아이템 Column에 대해서도 마찬가지로 Representation을 얻습니다. 그리고 그 두 표현을 이용해 Score를 얻습니다. 이 값이 높으면 User i가 Item j를 좋아한다고 판단하는 것입니다. Representation을 얻는 다는 게 별 다른 게 아닙니다. MNIST 이미지를 받아서 0~9 사이의 숫자 중 무엇인지 판별하는 문제를 풀 때 MNIST 이미지를 여러 Layer를 거쳐 10차원의  데이터로 표현합니다. 이 과정도 마찬가지로 **Representation Learning**이라고 할 수 있습니다. 
+
+#### Method of Interaction Function Learning
+
+****
 
 ### Updating ... 
 
