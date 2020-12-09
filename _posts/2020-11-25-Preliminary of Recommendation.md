@@ -119,7 +119,7 @@ MF의 objective function은 다음과 같이 정의할 수 있습니다. 목표�
 
 #### ![image](https://user-images.githubusercontent.com/51329156/101655831-684efb00-3a85-11eb-9dd3-4963d047d482.png)
 
-유저 Row에 대해 DNN을 사용해 Representation을 얻고, 아이템 Column에 대해서도 마찬가지로 Representation을 얻습니다. 그리고 그 두 표현을 이용해 Score를 얻습니다. 이 값이 높으면 User i가 Item j를 좋아한다고 판단하는 것입니다. Representation을 얻는 다는 게 별 다른 게 아닙니다. MNIST 이미지를 받아서 0~9 사이의 숫자 중 무엇인지 판별하는 문제를 풀 때 MNIST 이미지를 여러 Layer를 거쳐 10차원의  데이터로 표현합니다. 이 과정도 마찬가지로 **Representation Learning**이라고 할 수 있습니다. 
+유저 Row에 대해 DNN을 사용해 Representation을 얻고, 아이템 Column에 대해서도 마찬가지로 Representation을 얻습니다. 그리고 그 얻은 두 표현을 이용해 Score를 얻습니다. 이 값이 높으면 User i가 Item j를 좋아한다고 판단하는 것입니다. Representation을 얻는다는 게 별 다른 게 아닙니다. MNIST 이미지를 받아서 0~9 사이의 숫자 중 무엇인지 판별하는 문제를 풀 때 MNIST 이미지를 여러 Layer를 거쳐 10차원의  데이터로 표현합니다. 이 과정도 마찬가지로 **Representation Learning**이라고 할 수 있습니다. 
 
 #### Method of Interaction Function Learning
 
