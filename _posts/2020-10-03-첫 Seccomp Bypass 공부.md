@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "First Seccomp Bypass"
+title:  "첫 Seccomp Bypass 공부"
 date:   2020-10-03
 categories: ["2020","pwnable"]
 update: 2020-10-03
