@@ -1,5 +1,5 @@
 ---
-ㄴlayout: post
+layout: post
 title:  "HTTP Request Smuggling Attack "
 date:   2020-11-07
 categories: ["2020","web hacking"]
