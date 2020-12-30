@@ -22,6 +22,8 @@ am in CyKor, Korea University
 
 am intersted in web hacking, recently Vision and Recommendation Algorithm 👍
 
+love panda :)
+
 
 #### Personal information
 
