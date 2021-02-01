@@ -21,7 +21,6 @@ tags: [ai,recommend]
 저는 PyTorch로 개발할 때 코드를 총 6부분으로 구분합니다.
 
 - **Setting**
-
 - **Dataset & Dataloader**
 - **Model**
 - **Criterion(loss function) & Optimizer**
