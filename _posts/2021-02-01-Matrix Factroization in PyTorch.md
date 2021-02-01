@@ -62,7 +62,7 @@ parser.add_argument('--lr', '-l', type=float, help='learning rate', default=1e-3
 
 ### Dataset / Dataloader 
 
-PyTorch에서는 MNIST 같이 유명한 데이터에 대해서는 기본적으로 내장된 데이터셋을 제공합니다. 그런데 movielens는 없더라구요 ㅠㅠ 그래서 한번 만들어봤습니다. 이 과정이 필수는 아니지만 PyTorch에서 제공하는 **Dataloader**는 전체 데이터셋을 여러 batch들로 나누고, 섞고, 반복적으로 접근할 수 있게 해줍니다. 그 것도 아주 쉬운 방법으로요! 👏 그래서 데이터를 처리하는 과정을 단순화할 수 있고, 코드의 가독성도 높여줍니다.
+PyTorch에서는 MNIST 같이 유명한 데이터에 대해서는 기본적으로 내장된 데이터셋을 제공합니다. 그런데 movielens는 없더라구요 ㅠㅠ 그래서 한번 만들어봤습니다. 이 과정이 필수는 아니지만 PyTorch에서 제공하는 **Dataloader**는 전체 데이터셋을 여러 batch들로 나누고, 섞고, 반복적으로 접근할 수 있게 해줍니다. 그것도 아주 쉬운 방법으로요! 👏 그래서 데이터를 처리하는 과정을 단순화할 수 있고, 코드의 가독성도 높여줍니다.
 
 저는 movielens dataset 을 사용했는데, [여기](https://grouplens.org/datasets/movielens/)에 가시면 여러 종류의 데이터셋이 있습니다. 저는 이 중 **MovieLens Latest Datasets**을 사용했습니다.
 
