@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "First Seccomp Bypass"
+title:  "첫 Seccomp Bypass 공부"
 date:   2020-10-03
 categories: ["2020","pwnable"]
 update: 2020-10-03
@@ -127,7 +127,7 @@ shellcode = mmap(NULL, 0x1000, PROT_READ | PROT_WRITE | PROT_EXEC, MAP_PRIVATE |
 
 이상하다고 느낀 점 👓
 
-- 배울 때는 **FILTER_MODE** 일 때 `prctl()`에게 세 번째 인자로 `sock_fprog`의 주솔르 준다고 배웠다. 근데 **STRICT_MODE**인데도 줬다.
+- 배울 때는 **FILTER_MODE** 일 때 `prctl()`에게 세 번째 인자로 `sock_fprog`의 주소를 준다고 배웠다. 근데 **STRICT_MODE**인데도 줬다.
 - `PR_SET_NO_NEW_PRIVS`도 마찬가지..
 
 코드는 간단하다. `READ|WRITE|EXEC` 권한을 준 영역이 있다. 쉘코드를 입력할 수 있고, 실행도 할 수 있다. 원하는 주소에 값을 넣는 것도 가능하다.
