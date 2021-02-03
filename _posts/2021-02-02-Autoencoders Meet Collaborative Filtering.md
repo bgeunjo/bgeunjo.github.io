@@ -1,9 +1,9 @@
 ---
 layout: post
 title:  "AutoRec 논문 리뷰, PyTorch로 구현하기"
-date:   2021-02-02
+date:   2021-02-03
 categories: ["2021","ai"]
-update:   2021-02-02
+update:   2021-02-03
 use_math: true
 comment: true
 tags: [ai,recommend]
@@ -43,8 +43,4 @@ tags: [ai,recommend]
 
 ### 2. THE AUTOREC MODEL
 
-CF에서 m명의 사용자와, n개의 아이템에 대해 rating matrix
-$$
-R \in \mathbb{R}^{m \times n}
-$$
-를 가집니다. 각 User u는 item에 대한 평가 
+CF에서 m명의 사용자와, n개의 아이템에 대해 rating matrix $$ R \in \mathbb{R}^{m \times n} $$를 가집니다. 각 User u는 item에 대한 평가 
