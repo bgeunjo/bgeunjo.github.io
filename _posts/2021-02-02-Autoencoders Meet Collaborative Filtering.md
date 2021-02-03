@@ -43,4 +43,4 @@ tags: [ai,recommend]
 
 ### 2. THE AUTOREC MODEL
 
-CF에서 m명의 사용자와, n개의 아이템에 대해 rating matrix $$ R \in \mathbb{R}^{m \times n} $$를 가집니다. 각 User u는 item에 대한 평가 
+CF에서 m명의 사용자와, n개의 아이템에 대해 rating matrix $$ R \in \mathbb{R}^{m \times n} $$를 가집니다. 각 User u는 item에 대한 평가  hh
