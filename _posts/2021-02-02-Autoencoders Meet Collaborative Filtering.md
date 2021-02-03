@@ -9,6 +9,32 @@ comment: true
 tags: [ai,recommend]
 ---
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+내용이 워낙 간단하고 글도 짧아서 리뷰는 모델까지만 간단히 하고 바로 구현으로 넘어가겠습니다.
+
+
+
 ## AutoRec: Autoencoders Meet Collaborative Filtering
 
 ### ABSTRACT
@@ -41,6 +67,219 @@ tags: [ai,recommend]
 
 > 🚀 [오토인코더 (AutoEncoder)](https://excelsior-cjh.tistory.com/187)
 
-### 2. THE AUTOREC MODEL
+### THE AUTOREC MODEL
 
-CF에서 m명의 사용자와, n개의 아이템에 대해 rating matrix $R \in \mathbb{R}^{m \times n}$를 가집니다. 각 User u는 item에 대한 평가
+CF에서 m명의 사용자와, n개의 아이템에 대해 rating matrix $R \in \mathbb{R}^{m \times n}$를 가집니다. 각 User u는 item에 대한 평가 벡터 $r^{(u)} = (R_{u1},R_{u2},...,R_{un})$를 가지고 Item i는 마찬가지로 $r^{(i)} = (R_{1i},R_{2i},...,R_{mi})$로 표현될 수 있습니다.  앞으로의 설명은 Item-based를 기반으로 하겠습니다.  이 모델에서 하려는 일은 원래 입력값 $r^{(i)}$와 오토인코더를 통해 재구성한 입력값 간의 오차를 구해 그 오차를 줄여나가는 것입니다. 입력을 재구성한 값, 즉 오토인코더를 거친 output은 수식으로 다음과 같이 나타냅니다.
+$$
+h(r;\theta) = f(W \cdot g(Vr + \mu) + b)
+$$
+$f,g$는 각각 활성화 함수이고, 파라미터 각각의 사이즈는 다음과 같습니다.
+$$
+W \in R^{d \times k} ,V \in R^{k \times d}, \mu \in R^{k},b \in R^{d}
+$$
+여기서 $d$는 m 혹은 n이고 $k$는 hidden_layer의 feature 수 입니다. 
+
+Objective funtion은 L2 loss를 손실함수로 사용하는 L2 Regularization을 사용합니다.
+$$
+\underset{\theta}{min} \sum_{i=1}^{n} || r^{(i)} - h(r;\theta)||_{O}^{2} + \frac{\lambda}{2} \cdot(||W||_{F}^{2}+||V||_{F}^{2})
+$$
+여기서 $|| \cdot||_{O}^{2}$의 의미는 관측된 rating, 즉 interaction matrix에서 비어있지 않은 요소에 대해서만 고려하겠다는 의미입니다. MF와는 달리 $g(\cdot)$에서 non-linear 한 활성화 함수를 사용함으로써 latent vector를 더 잘 표현할 수 있다고 합니다.
+
+
+
+## PyTorch로 구현
+
+### 📖 Dataset
+
+전체 데이터셋을 train, test 셋으로 나누고 `__getitem__()`에서는 각 item에 대한 평가 벡터를 가져옵니다.
+
+``` python
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
+class MovielensDataset(Dataset):
+    def __init__(self, path, index, columns, values, train_ratio=.9, test_ratio=.1, train = None):
+        super().__init__()
+        # self.index = index
+        # self.columns = columns
+        # self.values = values
+        self.rating_df = pd.read_csv(path)
+        self.inter_matrix = self.rating_df.pivot(index=index, columns=columns, values=values).fillna(0).to_numpy()
+
+        self.train_ratio = train_ratio
+        self.test_ratio = test_ratio
+
+        self.total_indices = np.arange(len(self.inter_matrix))
+        self.test_indices = np.random.choice(self.total_indices, size=(int(len(self.inter_matrix) * self.test_ratio),), replace=False)
+        self.train_indices = np.array(list(set(self.total_indices)-set(self.test_indices)))
+
+        if train != None:
+            if train == True:
+                self.inter_matrix = self.inter_matrix[self.train_indices]
+            elif train == False:
+                self.inter_matrix = self.inter_matrix[self.test_indices] 
+    def __len__(self):
+        return len(self.inter_matrix)
+    def __getitem__(self, index: int):
+        """
+        get rating vector of one item(or user) : [0., 0., 4., 3., ..., 0., 0.]
+        """
+        return torch.Tensor(self.inter_matrix[index]).to(device)
+```
+
+### 📖 Model
+
+오토인코더는 **encoder**와 **decoder**로 이루어져있다고 했으니 모델에서도 똑같이 구현해줍니다. 위의 수식에서는 $h(\cdot)$에 해당하는 코드입니다.
+
+``` python
+class AutoRec(nn.Module):
+    """
+    input -> hidden -> output(output.shape == input.shape)
+    encoder: input -> hidden
+    decoder: hidden -> output
+    """
+    def __init__(self, n_users, n_items, n_factors=200):
+        super(AutoRec, self).__init__()
+        self.n_factors = n_factors
+        self.n_users = n_users
+        self.n_items = n_items
+
+        self.encoder = nn.Sequential(
+            nn.Linear(self.n_users,self.n_factors),
+            nn.Sigmoid(),
+        )
+        self.decoder = nn.Sequential(
+            nn.Linear(self.n_factors, self.n_users),
+            nn.Identity(),
+        )
+
+    def forward(self, x):
+        return self.decoder(self.encoder(x)).to(device)
+```
+
+`Sigmoid()`와 `Identity()`는 논문에서 성능이 가장 좋은 조합이었습니다.
+
+### 📖 Criterion
+
+논문에서 관측된 rating에 대해서만 오차를 검사한다고 했으니 비어있는 값은 빼고 계산하기 위해 기존에 사용하던 RMSE 클래스에 약간 수정을 했습니다. 제가 한 방법 말고도 numpy의 `nonzero()`를 사용해도 좋을 것 같습니다.
+
+``` python
+class MRMSELoss(nn.Module):
+    """
+    MaskedRootMSELoss() uses only observed ratings.
+    According to docs(https://pytorch.org/docs/stable/generated/torch.nn.MSELoss.html), 
+    'mean' is set by default for 'reduction' and can be avoided by 'reduction="sum"'
+    """
+    def __init__(self, reduction='sum'):
+        super().__init__()
+        self.reduction = reduction
+        self.mse = nn.MSELoss(reduction=self.reduction).to(device)
+    def forward(self, pred, rating):
+        mask = rating != 0
+        masked_pred = pred * mask.float()
+        num_observed = torch.sum(mask).to(device) if self.reduction == 'mean' else torch.Tensor([1.]).to(device)
+        loss = torch.sqrt(self.mse(masked_pred, rating) / num_observed)
+        return loss
+```
+
+Objective function에서 $\lambda$ 는 Optimizer에 `weight_decay`값으로 주면 됩니다.
+
+실행코드는 아래와 같습니다.
+
+``` python
+import torch
+from torch import nn, optim,cuda
+from models import AutoRec, MRMSELoss
+from data import MovielensDataset
+from torch.utils.data import DataLoader, Dataset
+import argparse
+import os
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+"""
+AutoRec: Autoencoders Meet Collaborative Filtering implementation with PyTorch
+"""
+# Setting
+def check_positive(val):
+    val = int(val)
+    if val <=0:
+        raise argparse.ArgumentError(f'{val} is invalid value. epochs should be positive integer')
+    return val
+
+parser = argparse.ArgumentParser(description='AutoRec with PyTorch')
+parser.add_argument('--epochs', '-e', type=check_positive, default=30)
+parser.add_argument('--batch', '-b', type=check_positive, default=32)
+parser.add_argument('--lr', '-l', type=float, help='learning rate', default=1e-3)
+parser.add_argument('--wd', '-w', type=float, help='weight decay(lambda)', default=1e-2)
+parser.add_argument('--ksize', '-k', type=check_positive, help='hidden layer feature_size', default=200)
+
+args = parser.parse_args()
+
+path = 'data/movielens/'
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+n_users, n_items = (9724, 610)
+
+# Dataset & Dataloader
+
+train_dataset = MovielensDataset(path=os.path.join(path,'ratings.csv'), index='movieId', columns='userId', train=True)
+test_dataset = MovielensDataset(path=os.path.join(path,'ratings.csv'), index='movieId', columns='userId', train=False)
+
+train_loader = DataLoader(dataset=train_dataset, batch_size=args.batch,shuffle=True)
+test_loader = DataLoader(dataset=test_dataset, batch_size=args.batch,shuffle=True)
+
+# Model & Criterion
+model = AutoRec(n_users=n_users, n_items=n_items, n_factors=200).to(device)
+
+# Criterion & Optimizer
+criterion = MRMSELoss().to(device)
+optimizer = optim.Adam(model.parameters(), weight_decay= args.wd, lr=args.lr)
+
+# Train & Test
+def train(epoch):
+    process = []
+    for idx, (data,) in enumerate(train_loader):
+        optimizer.zero_grad()
+        pred = model(data)
+        loss = criterion(pred,data)
+        loss.backward()
+        optim.step()
+        process.append(loss.item())
+        if idx % 100 == 0:
+            print (f"[+] Epoch {epoch} [{idx * args.batch} / {len(train_loader.dataset)}] - RMSE {sum(process) / len(process)}")
+    return torch.Tensor(sum(process) / len(process)).to(device)
+def test():
+    process = []
+    for idx, (data,) in enumerate(test_loader):
+        optimizer.zero_grad()
+        pred = model(data)
+        loss = criterion(pred,data)
+        loss.backward()
+        optim.step()
+        process.append(loss.item())
+    print (f"[*] Test RMSE {sum(process) / len(process)} ")
+    return torch.Tensor(sum(process) / len(process)).to(device)
+    
+# Run
+if __name__=="__main__":
+    train_rmse = torch.Tensor([]).to(device)
+    test_rmse = torch.Tensor([]).to(device)
+    for epoch in range(args.epochs):
+        train_rmse = torch.cat((train_rmse, train(epoch)), dim=0)
+        test_rmse = torch.cat((test_rmse, test()), dim=0)
+    plt.plot(range(args.epochs),train_rmse, range(args.epochs),test_rmse)
+    plt.xlabel('epoch')
+    plt.ylabel('RMSE')
+    plt.xticks(range(0,args.epochs,2))
+    plt.show()
+```
+
+### Result
+
+![autoRec](https://user-images.githubusercontent.com/51329156/106747396-357d4980-6667-11eb-9b75-796767ce92de.png)
+
+논문에서 제시한 결과만큼은 내려가지 않는 것 같습니다.. 그냥 한 번 구현해본 거에 대해 의의를 가져야 할 것 같아요.
+
+### Conclusion
+
+논문도 짧고 모델도 단순해서 구현이 익숙하시지 않은 분들도 쉽게 할 수 있을 것 같습니다. 코드 구현 시 궁금한 점 있으시면 메일 주세요. 감사합니다 !
