@@ -16,4 +16,7 @@
   <link rel="stylesheet" href="{{ '/lib/material-scrolltop/material-scrolltop.css' | prepend: site.baseurl }}">
 
   {% include check.html %}
+  {% if page.use_math %}
+    {% include mathjax_support.html %}
+  {% endif %}
 </head>
