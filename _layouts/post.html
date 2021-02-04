@@ -35,9 +35,9 @@ layout: default
     <article class="post-content">
       {{ content | toc_generate }}
     </article>
-    {% if page.mathjax %}
-      {% include mathjax_support.html %}
-    {% endif %}
+    <script type="text/javascript" async
+      src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
     {% include share.html %}
 
   </div>
