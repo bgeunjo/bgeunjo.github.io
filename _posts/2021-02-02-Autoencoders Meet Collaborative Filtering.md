@@ -81,10 +81,10 @@ $W \\in R^{d \times k} ,V \in R^{k \times d}, \mu \in R^{k},b \in R^{d}$
 
 Objective funtion은 L2 loss를 손실함수로 사용하는 L2 Regularization을 사용합니다.
 
-$\underset{\theta}{min}\sum_{i=1}^{n}\left\leftr^{(i)} - h(r;\theta)\right\right_{O}^{2}+\frac{\lambda}{2}\cdot(\left\leftW\right\right_{F}^{2}+\left\leftV\right\right_{F}^{2})$
+$\underset{\theta}{min}\sum_{i=1}^{n}\left \|r^{(i)} - h(r;\theta)\right \|{O}^{2}+\frac{\lambda}{2}\cdot(\left \|W\right \|_{F}^{2}+\left \|V\right \|_{F}^{2})$
 
 
-$\left\cdot\right\right_{O}^{2}$의 의미는 관측된 rating, 즉 interaction matrix에서 비어있지 않은 요소에 대해서만 고려하겠다는 의미입니다. MF와는 달리 $g(\cdot)$에서 non-linear 한 활성화 함수를 사용함으로써 latent vector를 더 잘 표현할 수 있다고 합니다.
+$\left \|\cdot\left \|_{O}^{2}$의 의미는 관측된 rating, 즉 interaction matrix에서 비어있지 않은 요소에 대해서만 고려하겠다는 의미입니다. MF와는 달리 $g(\cdot)$에서 non-linear 한 활성화 함수를 사용함으로써 latent vector를 더 잘 표현할 수 있다고 합니다.
 
 ## PyTorch로 구현
 
