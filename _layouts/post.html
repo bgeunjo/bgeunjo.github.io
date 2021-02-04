@@ -32,7 +32,9 @@ layout: default
         {% endfor %}
       {% endif %}
     </div>
-
+    {% if page.mathjax %}
+      {% include mathjax_support.html %}
+    {% endif %}
     <article class="post-content">
       {{ content | toc_generate }}
     </article>
@@ -41,9 +43,5 @@ layout: default
 
   </div>
   </div>
-
-  {% if page.mathjax %}
-    {% include mathjax_support.html %}
-  {% endif %}
 
 </div>
