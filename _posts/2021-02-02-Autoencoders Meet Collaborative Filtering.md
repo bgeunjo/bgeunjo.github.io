@@ -84,9 +84,9 @@ Objective funtion은 L2 loss를 손실함수로 사용하는 L2 Regularization�
 $\underset{\theta}{min}\sum_{i=1}^{n}||r^{(i)} - h(r;\theta)||_{O}^{2}+\frac{\lambda}{2}\cdot(||W||_{F}^{2}+||V||_{F}^{2})$
 
 
+
+
 $||\cdot||_{O}^{2}$의 의미는 관측된 rating, 즉 interaction matrix에서 비어있지 않은 요소에 대해서만 고려하겠다는 의미입니다. MF와는 달리 $g(\cdot)$에서 non-linear 한 활성화 함수를 사용함으로써 latent vector를 더 잘 표현할 수 있다고 합니다.
-
-
 
 ## PyTorch로 구현
 
