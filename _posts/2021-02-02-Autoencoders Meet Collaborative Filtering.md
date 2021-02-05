@@ -39,7 +39,7 @@ tags: [ai,recommend]
 
 ### ABSTRACT
 
-이 논문에서는 협업필터링(이하 CF)를 위한 autoencoder 프레임워크를 제시합니다. 저자의 경험에 따르면 **AutoRec**의 모델은 작고 효율적으로 학습이 가능하다고 Movielens 데이터셋과 Netflix 데이터셋에 대해 당시 state-of-the-art CF 기술이었던 biased MF, RBM-CF, LLORMA보다 월등한 성능을 냈다고 하네요.
+이 논문에서는 협업필터링(이하 CF)를 위한 autoencoder 프레임워크를 제시합니다. 저자의 경험에 따르면 **AutoRec**의 모델은 작고 효율적으로 학습이 가능하고 Movielens 데이터셋과 Netflix 데이터셋에 대해 당시 state-of-the-art CF 기술이었던 biased MF, RBM-CF, LLORMA보다 월등한 성능을 냈다고 하네요.
 
 ### 👀 What is Autoencoder ?
 
