@@ -14,19 +14,8 @@ url: "https://bgeunjo.github.io/"
 
 # footer 
 description: "Let's practice hard"
-favo: "Challenge in progress : kaggle challenge about Recommendation Algorithm"
-descrpt: |+
-  ✔ Challenge Success : dreamhack 50th 👏<br>
-  😥 Challenge Failed : dreamhack web all solve (📅~2020.10.10)<br>
-  😥 Challenge Failed : dreamhack web all solve (📅~2020.10.16) all solve on 2020.10.21 👍<br>
-  ✔ Challenge Success : dreamhack 30th (📅~2020.11.07)<br>
-  😥 Challenge Failed : awarded at CCE 2020<br>
-  ✔Challenge Success : Translate a article of portswigger 👏<br>
-
-
-
-
-
+favo: "Dreamhack web all solve !! yeah ~~🎉🎉"
+descrpt:
 #
 # Build settings
 #
@@ -35,9 +24,6 @@ descrpt: |+
 
 markdown: kramdown
 highlighter: rouge
-lsi: false
-excerpt_separator: "\n\n"
-incremental: false
 
 kramdown:
   input: GFM
