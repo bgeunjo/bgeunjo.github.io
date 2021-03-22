@@ -3,6 +3,7 @@ layout: post
 title:  "이상 탐지 - Isolation Forest"
 date:   2021-03-23
 categories: ["2021","AI"]
+tags: [AI]
 update:   2021-03-23
 use_math: true
 comment: true
