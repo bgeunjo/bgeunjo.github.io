@@ -51,7 +51,7 @@ tags: [ai,recommend]
 
 CF에서 m명의 사용자와, n개의 아이템에 대해 rating matrix $R \in \mathbb{R}^{m \times n}$를 가집니다. 각 User u는 item에 대한 평가 벡터 $r^{(u)} = (R_{u1},R_{u2},...,R_{un})$를 가지고 Item i는 마찬가지로 $r^{(i)} = (R_{1i},R_{2i},...,R_{mi})$로 표현될 수 있습니다.  앞으로의 설명은 Item-based를 기반으로 하겠습니다.  이 모델에서 하려는 일은 원래 입력값 $r^{(i)}$와 오토인코더를 통해 재구성한 입력값 간의 오차를 구해 그 오차를 줄여나가는 것입니다. 입력을 재구성한 값, 즉 오토인코더를 거친 output은 수식으로 다음과 같이 나타냅니다.
 
-$ h(r;\theta) = f(W \\cdot g(Vr + \mu) + b) $
+$$h(r;\theta) = f(W \\cdot g(Vr + \mu) + b)$$
 
 $ f,g $는 각각 활성화 함수이고, 파라미터 각각의 사이즈는 다음과 같습니다.
 
