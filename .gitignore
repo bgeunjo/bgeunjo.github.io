@@ -1,7 +1,4 @@
-*~
-.sass-cache/
 _site
-google-analytics.js
-.env
-up.bat
-CNAME
+.sass-cache
+.asset-cache
+.jekyll-metadata

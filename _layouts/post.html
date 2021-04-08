@@ -1,47 +1,24 @@
 ---
 layout: default
 ---
-
-<div class="post-ribbon"></div>
-
-<div class="container post-container">
-  <div class="post-page card-panel z-depth-2">
-  <div class="post-section">
-
-    <p class="grey-text">
-      <i class="mdi mdi-calendar"></i>&nbsp;
-      {% if page.date %}{{ page.date | date: "%b %-d, %Y" }}{% else %}unknown{% endif %}
-      &nbsp;&nbsp;<i class="mdi mdi-account-circle"></i>&nbsp;
-      {% if page.author %}{{ page.author }}{% else %}{{ site.author }}{% endif %}
-      &nbsp;&nbsp;<i class="mdi mdi-label"></i>&nbsp;
-      <span class="capitalize">
-        {% if page.categories %}{% for category in page.categories %}{{ category }}{% unless forloop.last %}, {% endunless %}{% endfor %}
-        {% else %}unknown
-        {% endif %}
-      </span>
-      &emsp;<i class="mdi mdi-refresh"></i>&nbsp;UPDATE: {% if page.update %}{{ page.update | date: "%b %-d, %Y" }}{% else %}{{ page.last_modified_at | date: "%b %-d, %Y" }}{% endif %}
-    </p>
-
-    <div class="post-header">
-      <h1 class="post-title">{{ page.title }}</h1>
-
-      {% if page.tags %}
-        <i class="post-tag mdi mdi-tag-multiple waves-effect waves-light"></i>
-        {% for tag in page.tags %}
-        <span class="chip">{{ tag }}</span>
-        {% endfor %}
+<div class="page-header">
+  <h1 class="page-title">{{page.title}}</h1>
+  <span class="page-list-date">
+    <i class="fa fa-calendar-o" aria-hidden="true"></i> {{ page.date | date: "%B %-d, %Y" }}
+  </span>
+</div>
+<div class="post-container">
+  {% if page.img %}
+   <img class="post-img" src={{ "/assets/img/" | prepend: site.baseurl | append : page.img}} alt="{{page.title}}">
+  {% endif %}
+  <div class="post-content">
+    <article>
+      {% if page.author %}
+      <div class="date-byline"><span><i class="fa fa-calendar-o" aria-hidden="true"></i> {{page.date | date: '%Y, %b %d'}}&nbsp;&nbsp;&nbsp;&nbsp;</span><span><i class="fa fa-pencil-square-o" aria-hidden="true"></i> {{page.author}}</span></div>
       {% endif %}
-    </div>
-    
-    <article class="post-content">
-      {{ content | toc_generate }}
+      {{page.content | markdownify}}
     </article>
-    <script type="text/javascript" async
-      src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
-    </script>
     {% include share.html %}
-
+    {% include disqus.html %}
   </div>
-  </div>
-
 </div>

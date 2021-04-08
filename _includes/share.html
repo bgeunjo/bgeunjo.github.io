@@ -1,21 +1,13 @@
 <div class="post-share">
-
-<!-- desktop and tablet-->
-<div class="hide-on-small-only">
-  <i class="mdi mdi-share-variant material-icons small grey-text waves-effect waves-light"></i>
-
-  <a href="https://plus.google.com/share?url={{ site.url }}{{ page.url | prepend: site.baseurl }}" class="waves-effect waves-light btn {{ site.share-button-color }} tooltipped" data-position="bottom" data-delay="20" data-tooltip="Share on Google+"><i class="mdi mdi-google-plus white-text"></i></a>
-  <a href="https://twitter.com/intent/tweet?text={% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}&url={{ site.url }}{{ page.url | prepend: site.baseurl }}&via={{ site.twitter_username }}&related={{ site.twitter_username }}" class="waves-effect waves-light btn {{ site.share-button-color }} tooltipped" data-position="bottom" data-delay="20" data-tooltip="Share on Twitter"><i class="mdi mdi-twitter white-text"></i></a>
-  <a href="https://facebook.com/sharer.php?u={{ site.url }}{{ page.url | prepend: site.baseurl }}" class="waves-effect waves-light btn {{ site.share-button-color }} tooltipped" data-position="bottom" data-delay="20" data-tooltip="Share on Facebook"><i class="mdi mdi-facebook white-text"></i></a>
-</div>
-
-<!-- small screen device -->
-<div class="hide-on-med-and-up">
-  <i class="mdi mdi-share-variant waves-effect waves-light small tooltipped grey-text" data-position="bottom" data-delay="50" data-tooltip="Share"></i>
-
-  <a href="https://plus.google.com/share?url={{ site.url }}{{ page.url | prepend: site.baseurl }}" class="waves-effect waves-light btn-floating {{ site.share-button-small-color }}"><i class="mdi mdi-google-plus white-text"></i></a>
-  <a href="https://twitter.com/intent/tweet?text={% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}&url={{ site.url }}{{ page.url | prepend: site.baseurl }}&via={{ site.twitter_username }}&related={{ site.twitter_username }}" class="waves-effect waves-light btn-floating {{ site.share-button-small-color }}"><i class="mdi mdi-twitter white-text"></i></a>
-  <a href="https://facebook.com/sharer.php?u={{ site.url }}{{ page.url | prepend: site.baseurl }}" class="waves-effect waves-light btn-floating {{ site.share-button-small-color }}"><i class="mdi mdi-facebook white-text"></i></a>
-</div>
-
+  <h5>Share:</h5>
+  {% assign page_title = page.title  | truncate '110' %}
+  <a href="" title="Share on Twitter" onclick="window.open('https://twitter.com/home?status={{ page_title }} - {{ page.url | absolute_url }} {% if site.twitter %}by {{ site.twitter }}{% endif %}', 'newwindow', 'width=500, height=225'); return false;" data-turbolinks="false">
+    <i class="fa fa-twitter" aria-hidden="true"></i>
+  </a>
+  <a href="" title="Share on Facebook" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u={{ page.url | absolute_url }}', 'newwindow', 'width=500, height=500'); return false;" data-turbolinks="false">
+    <i class="fa fa-facebook" aria-hidden="true"></i>
+  </a>
+  <a href="" title="Share on Google+" onclick="window.open('https://plus.google.com/share?url={{ page.url | absolute_url }}', 'newwindow', 'width=550, height=400'); return false;" data-turbolinks="false">
+    <i class="fa fa-google-plus" aria-hidden="true"></i>
+  </a>
 </div>
