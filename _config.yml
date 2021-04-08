@@ -11,7 +11,7 @@ blog_theme: dark # Or use dark
 # Profile information
 name: Byeonggeun Jo
 tagline: Nothing
-about-description: Working at Corca AI 😀# Add Discription
+about-description: Working at Corca AI 😀
 pic: profile.jpg  # Place a 200x200 picture inside /assets/img/ folder and provide the name of the file below
 
 # Contact links
