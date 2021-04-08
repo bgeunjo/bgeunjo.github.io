@@ -817,7 +817,7 @@ blockquote {
   .contact-list li {
     margin-bottom: 0.3rem; }
     .contact-list li a {
-      font-family: monospace;
+      font-family: 'Roboto';
       text-decoration: none;
       border-radius: 5px;
       display: block;
