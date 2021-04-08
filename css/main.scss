@@ -3,64 +3,27 @@
 ---
 @charset "utf-8";
 
-
-// All import font can be found in `_sass/_lib.scss`
-@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&display=swap');
-
-$google-fonts: 'Source+Code+Pro', 'Source+Sans+Pro';
-
-$base-font-family: 'Delius', 'Roboto', Helvetica, Arial, sans-serif;
-$code-font-family: 'Nanum+Gothic+Coding', "DejaVu Sans Mono", "Monospace", 'Source Code Pro';
-
-$site-title-font: "DejaVu Sans Mono", 'Source Code Pro';
-$post-title-font: 'Delius';
-$head-font: 'Delius';               // post h2 and h4
-$list-link-font: 'Delius';          // home page
-
-$base-font-size:   1.2rem;
+$base-font-family: "Open Sans", "Helvetica Neue", "DejaVu Sans", Arial, "PingFang SC", "Noto Sans CJK SC", "Hiragino Sans GB", "微软雅黑",  Helvetica, sans-serif;
+$base-font-size:   16px;
 $small-font-size:  $base-font-size * 0.875;
-$base-line-height: 1.6;
+$base-line-height: 1.5;
 
-$spacing-unit:     30px;
-
-// color
-$text-color:       rgba(0, 0, 0, .9);
-$background-color: #f5f5f5;
-
-$pink:             #e91e63;
-$blue:             #2196f3;
-$teal-accent:      #00bfa5;
-$grey:             #9e9e9e;
-$grey-light:       #fafafa;
-$grey-dark:        #424242;
-$red:              #f44336;
+$code-font-family:   Menlo, Monaco, Consolas, "DejaVu Sans Mono", "Liberation Mono", "文泉驿等宽微米黑", "Courier New", Courier, SimSun, monospace;
+$code-font-size:     15px;
 
 // Width of the content area
-//$content-width:    800px;
+$content-width:    800px;
 
-// Media Query Ranges
-$small-screen-up: 601px !default;
-$medium-screen-up: 993px !default;
-$large-screen-up: 1201px !default;
-$small-screen: 600px !default;
-$medium-screen: 992px !default;
-$large-screen: 1200px !default;
+$on-palm:          600px;
+$on-laptop:        800px;
 
-$medium-and-up: "only screen and (min-width : #{$small-screen-up})" !default;
-$large-and-up: "only screen and (min-width : #{$medium-screen-up})" !default;
-$small-and-down: "only screen and (max-width : #{$small-screen})" !default;
-$medium-and-down: "only screen and (max-width : #{$medium-screen})" !default;
-$medium-only: "only screen and (min-width : #{$small-screen-up}) and (max-width : #{$medium-screen})" !default;
+$color-link: #036;
+$color-link-hover: #069;
 
-
-// Using media queries with like this:
-// @include media-query($on-palm) {
-//     .wrapper {
-//         padding-right: $spacing-unit / 2;
-//         padding-left: $spacing-unit / 2;
-//     }
-// }
+$header-bg: #607D8B;
+$header-bg-hover: #78909C;
+$header-link: #CFD8DC;
+$header-fg: #FFF;
 
 @mixin media-query($device) {
     @media screen and (max-width: $device) {
@@ -69,11 +32,12 @@ $medium-only: "only screen and (min-width : #{$small-screen-up}) and (max-width 
 }
 
 
+
 // Import partials from `sass_dir` (defaults to `_sass`)
 @import
         "base",
+        "animate",
         "layout",
-        "lib",
-        "syntax-highlighting"
+        "syntax-highlighting",
+        "easybook"
 ;
-@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');

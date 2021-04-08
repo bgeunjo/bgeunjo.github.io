@@ -1,52 +1,59 @@
-title: bbangjo blog
-description: > # this means to ignore newlines until "baseurl:"
-  Write an awesome description for your new site here. You can edit this
-  line in _config.yml. It will appear in your document head meta (for
-  Google search results) and in your feed.xml site description.
-baseurl: "/" # the subpath of your site, e.g. /blog
-url: "https://bgeunjo.github.io/" # the base hostname & protocol for your site, e.g. http://example.com
-permalink: ':title/'
-blog_theme: dark # Or use dark
+# Site settings
+title: bbangjo's blog
+url: "https://bgeunjo.github.io/"    # the protocol and hostname of your site, eg. `http://laobubu.github.io`
+baseurl: "" # the prefix of your site uri, eg. `"/jekyll-theme-EasyBook"` or empty string `""`
+#timezone: Asia/Chongqing
+description: >
+  Hello World. I'm bbangjo.
 
-# Profile information
-name: Byeonggeun Jo
-tagline: Nothing
-about-description: Working at Corca AI 😀
-pic: profile.jpg  # Place a 200x200 picture inside /assets/img/ folder and provide the name of the file below
-
-# Contact links
+# Your information
 email: airmancho@korea.ac.kr
-phone: nop # Add your Phone number
-website: blog.bbangjo.xyz # Add your website, do not add http://
-linkedin: # Add your Linkedin handle
-github: bgeunjo # Add your Github handle
-twitter: '@bgeunjo' # Add your Twitter handle
+author: Byeonggeun Jo
+avatar: "//www.gravatar.com/avatar/your_email_md5?d=mm&s=135"
+profile: Working at Corca AI.
+#twitter_username: twitter_username
+#github_username:  github_username
+profile_links:
+  Email: "mailto:your_email@example.com"
+  GitHub: "https://github.com/laobubu/jekyll-theme-EasyBook"
+  # You can add more profile links above, or edit _includes/sidebar.html 
 
-# Tracker
-analytics:
+# Comment Service (Disqus or 多说)
+#  choose one and un-comment the line to active it
+#disqus_shortname: xxx   # get one: https://disqus.com/admin/signup/
+#duoshuo_shortname: xxx  # get one: http://duoshuo.com/create-site/
 
-# Comments
-discus-identifier: # Add your Disqus identifier
+excerpt_separator: <!--more-->
 
-# Important settings
-assets:
-  sources:
-    - assets/fonts
-    - assets/img
-    - assets/js
-    - assets/stylesheets
+header:
+  links:             # Links on the header. Link to in-site page with a slash as prefix
+    About: /about/
+    Category: /category/
+    Donate: https://laobubu.net/donate.html
+
+permalink: /archivers/:title
+plugins:
+ - jekyll-paginate
+ - jekyll-gist
+ - jemoji
 
 # Build settings
-exclude:
-  - Gemfile
-  - Gemfile.lock
-  - README.md
+paginate: 5
+paginate_path: "page:num"
 
-gems:
-  - jekyll-feed
-  - jekyll-assets
-exclude:
-  - Gemfile
-  - Gemfile.lock
+highlighter: rouge
+markdown: kramdown
 
-include: [_pages]
+# https://jekyllrb.com/docs/configuration/#precedence
+defaults:
+  -
+    scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+  math_engine: mathjax

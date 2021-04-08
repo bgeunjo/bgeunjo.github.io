@@ -4,33 +4,6 @@ title: About
 permalink: /about/
 ---
 
-![profile](profile.jpg)
+Welcome to this website!
 
-#### Name
-
-Byeong Geun Jo 
-
-#### Nickname
-
-bbang_jo
-
-#### Introduction
-
-I 😎
-
-am in CyKor, Korea University
-
-am intersted in web hacking, recently Vision and Recommendation Algorithm 👍
-
-love panda :)
-
-
-#### Personal information
-
-Email: {{ site.email }}
-
-Instagram : @bban9_j0
-
-Twitter : @bgeunjo
-
-github: https://github.com/bgeunjo
+> This website is using [laobubu](http://laobubu.net)'s theme: [EasyBook](https://github.com/laobubu/jekyll-theme-EasyBook)
