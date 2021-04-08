@@ -1,64 +1,52 @@
-# Site settings
+title: Wendell Thomas
+description: > # this means to ignore newlines until "baseurl:"
+  Write an awesome description for your new site here. You can edit this
+  line in _config.yml. It will appear in your document head meta (for
+  Google search results) and in your feed.xml site description.
+baseurl: "/monday" # the subpath of your site, e.g. /blog
+url: "" # the base hostname & protocol for your site, e.g. http://example.com
+permalink: ':title/'
+blog_theme: dark # Or use dark
 
-author: bbang_jo
+# Profile information
+name: Byeonggeun Jo
+tagline: Nothing
+about-description: # Add Discription
+pic: 79.jpg  # Place a 200x200 picture inside /assets/img/ folder and provide the name of the file below
+
+# Contact links
 email: airmancho@korea.ac.kr
-twitter_username: bgeunjo
-github_username:  bgeunjo
-#googleplus_username: nop
+phone: nop # Add your Phone number
+website: blog.bbangjo.xyz # Add your website, do not add http://
+linkedin: # Add your Linkedin handle
+github: bgeunjo # Add your Github handle
+twitter: '@bgeunjo' # Add your Twitter handle
 
-head-title: bbang_bbang
-title: bbang_Jo Practice Range
+# Tracker
+analytics:
 
-baseurl: ""    # the subpath of your site, "/blog"
-url: "https://bgeunjo.github.io/"
+# Comments
+discus-identifier: # Add your Disqus identifier
 
-# footer 
-description: "Let's practice hard"
-favo: "Dreamhack web all solve !! yeah ~~🎉🎉"
-descrpt: "My favorite playlist 😁: https://www.youtube.com/watch?v=6wJepYuiznU"
-#
+# Important settings
+assets:
+  sources:
+    - assets/fonts
+    - assets/img
+    - assets/js
+    - assets/stylesheets
+
 # Build settings
-#
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
 
-#exclude: [vendor]
+gems:
+  - jekyll-feed
+  - jekyll-assets
+exclude:
+  - Gemfile
+  - Gemfile.lock
 
-markdown: kramdown
-highlighter: rouge
-
-kramdown:
-  input: GFM
-  hard_wrap: false
-  highlight: true
-  auto_ids:  true
-
-sass:
-  style: compressed
-
-permalink: /posts/:categories/:title.html
-
-paginate: 7
-#paginate_path: 'page/:num'
-
-gems: [jekyll-paginate, jekyll-last-modified-at, jemoji]
-
-
-#
-# Custom
-#
-
-# Color
-# All css class, see: http://materializecss.com/color.html
-header-color: "indigo lighten-1"
-head-theme-color: "#5c6bc0"     # MUST in hex format, may the same as header-color. This color is for android chrome browser.
-
-footer-color: "indigo lighten-1"
-footer-button-color: "indigo lighten-2"
-footer-link-color: "red-text text-accent-1"
-
-share-button-color: "pink"
-share-button-small-color: ""
-
-
-##
-#excerpt_separator: <!-- excerpt_end -->       # for post.excerpt
-
+include: [_pages]
