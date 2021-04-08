@@ -10,12 +10,12 @@ description: >
 email: airmancho@korea.ac.kr
 author: Byeonggeun Jo
 avatar: "//www.gravatar.com/avatar/your_email_md5?d=mm&s=135"
-profile: Working at Corca AI.
+profile: Working at Corca AI. Studying at Korea University. 😄
 #twitter_username: twitter_username
 #github_username:  github_username
 profile_links:
   Email: "mailto:your_email@example.com"
-  GitHub: "https://github.com/laobubu/jekyll-theme-EasyBook"
+  GitHub: "https://github.com/bgeunjo"
   # You can add more profile links above, or edit _includes/sidebar.html 
 
 # Comment Service (Disqus or 多说)
@@ -29,7 +29,6 @@ header:
   links:             # Links on the header. Link to in-site page with a slash as prefix
     About: /about/
     Category: /category/
-    Donate: https://laobubu.net/donate.html
 
 permalink: /archivers/:title
 plugins:
