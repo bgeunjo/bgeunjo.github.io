@@ -9,7 +9,7 @@ description: >
 # Your information
 email: airmancho@korea.ac.kr
 author: Byeonggeun Jo
-avatar: "//www.gravatar.com/avatar/your_email_md5?d=mm&s=135"
+avatar: "./assets/img/profile.jpg"
 profile: Working at Corca AI. Studying at Korea University. 😄
 #twitter_username: twitter_username
 #github_username:  github_username
