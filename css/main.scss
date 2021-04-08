@@ -6,11 +6,12 @@
 
 // All import font can be found in `_sass/_lib.scss`
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&family=Roboto&display=swap');
 
 $google-fonts: 'Source+Code+Pro', 'Source+Sans+Pro';
 
 $base-font-family: 'Delius', 'Roboto', Helvetica, Arial, sans-serif;
-$code-font-family: "DejaVu Sans Mono", "Monospace", 'Source Code Pro';
+$code-font-family: 'Nanum Gothic Coding', "DejaVu Sans Mono", "Monospace", 'Source Code Pro';
 
 $site-title-font: "DejaVu Sans Mono", 'Source Code Pro';
 $post-title-font: 'Delius';
