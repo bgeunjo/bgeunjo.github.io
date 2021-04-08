@@ -42,7 +42,9 @@ paginate_path: "page:num"
 
 highlighter: rouge
 markdown: kramdown
-
+lsi: false
+excerpt_separator: "\n\n"
+incremental: false
 # https://jekyllrb.com/docs/configuration/#precedence
 defaults:
   -

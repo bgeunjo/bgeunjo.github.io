@@ -4,7 +4,7 @@ title:  "AutoRec 논문 리뷰, PyTorch로 구현하기"
 date:   2021-02-03
 categories: ["2021","ai"]
 update:   2021-02-03
-mathjax: true
+use_math: true
 comment: true
 tags: [ai,recommend]
 ---
