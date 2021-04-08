@@ -9,12 +9,12 @@ description: >
 # Your information
 email: airmancho@korea.ac.kr
 author: Byeonggeun Jo
-avatar: "./profile.jpg"
+avatar: "https://pbs.twimg.com/media/EDnMgR1UUAIfy2Z.png"
 profile: Working at Corca AI. Studying at Korea University. 😄
 #twitter_username: twitter_username
 #github_username:  github_username
 profile_links:
-  Email: "mailto:your_email@example.com"
+  Email: "mailto:airmancho@korea.ac.kr"
   GitHub: "https://github.com/bgeunjo"
   # You can add more profile links above, or edit _includes/sidebar.html 
 
