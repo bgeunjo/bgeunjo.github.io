@@ -12,7 +12,7 @@ blog_theme: dark # Or use dark
 name: Byeonggeun Jo
 tagline: Nothing
 about-description: Working at Corca AI 😀# Add Discription
-pic: 79.jpg  # Place a 200x200 picture inside /assets/img/ folder and provide the name of the file below
+pic: profile.jpg  # Place a 200x200 picture inside /assets/img/ folder and provide the name of the file below
 
 # Contact links
 email: airmancho@korea.ac.kr
